@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="PLAY">
+	<meta name="author" content="FSKG">
+
+	<title>PLAY | Buy-Side | Asset Owner (External Fund Allocator) | Player Workflow</title>
+
+	
+	<!--<link rel="shortcut icon" href="img/favicon.ico">-->	
+	<link href="https://assets.bwbx.io/font-service/css/AvenirNextPForBBG:400,500,600,700/styled-font-face.css?ver=1.0.0" rel="stylesheet">
+
+	<!-- Choose your prefered color scheme -->
+	<link href="css/light.css" rel="stylesheet">	
+	<link href="css/player-custom.css" rel="stylesheet">
+
+	
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QSBMW9FHPQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QSBMW9FHPQ');
+</script>
+
+<!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['trackVisibleContentImpressions']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://matomo.prod.bloomberg.com/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '47']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+
+</head>
+<!--
+  HOW TO USE: 
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="dark" data-layout="boxed" data-sidebar-position="left" data-sidebar-behavior="fixed" style="background-image:url('img/bg.svg');">
+
+
+	<div class="wrapper bg-light">
+		<div class="main">			
+			<!--<nav class="menu-wrapper navbar navbar-expand navbar-light navbar-bg fixed-top">
+                    <a class="my-0 fs-5 link-dark fw-bold text-decoration-none" href="play-index.html">PLAY<span class="text-dark font-monospace small fw-light mb-2">&#60;GO&#62;</span></a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item pe-2">
+                    <span><img src="img/bloomberg-logo.svg" class="text-dark"  alt="..."></span>
+                </li>
+            </ul>
+			</nav>-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark menu-wrapper fixed-top" aria-label="Play navbar">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsPlay" aria-controls="navbarsPlay" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-lg-flex" id="navbarsPlay">
+          <a class="link-light text-decoration-none fw-bold col-lg-3 me-0 py-0 mb-0 fs-3" href="play-index.html">Player Portal</a>
+          <ul class="navbar-nav col-lg-6 justify-content-lg-center dropdown-menu-dark">
+            <li class="nav-item dropdown pe-4">
+              <a class="nav-link dropdown-toggle fw-bold" href="#" data-bs-toggle="dropdown" aria-expanded="false">Buy-Side</a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="play-bs-asset-owner-meet.html">Asset Owner (External Fund Allocator)</a></li>
+                <li><a class="dropdown-item" href="play-bs-execution-trader-meet.html">Execution Trader</a></li>
+                <li><a class="dropdown-item" href="play-bs-portfolio-manager-meet.html">Portfolio Manager</a></li>
+                <li><a class="dropdown-item" href="play-bs-research-analyst-meet.html">Research Analyst</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown pe-4">
+              <a class="nav-link dropdown-toggle link-white fw-bold" href="#" data-bs-toggle="dropdown" aria-expanded="false">Sell-Side</a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="play-ss-credit-trader-meet.html">Credit Trader</a></li>
+                <li><a class="dropdown-item" href="play-ss-equity-trader-meet.html">Equity Trader</a></li>
+                <li><a class="dropdown-item" href="play-ss-research-analyst-meet.html">Research Analyst</a></li>
+                <li><a class="dropdown-item" href="play-ss-salesperson-meet.html">Salesperson</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle link-white fw-bold" href="#" data-bs-toggle="dropdown" aria-expanded="false">Corporations</a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="play-co-corporate-ir-meet.html">Investor Relations</a></li>
+                <li><a class="dropdown-item" href="play-co-corporate-treasurer-meet.html">Corporate Treasury</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div class="d-lg-flex col-lg-3 justify-content-lg-end">
+            <span><img src="img/bloomberg-logo-white.svg" class="text-white"  alt="..."></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+
+            <!-- Modal START-->
+            <div class="modal fade" id="player" tabindex="-1" aria-labelledby="playerLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xxl">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="playerLabel">Player Workflow</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body ratio ratio-4x3">
+                      <object data="players/bs-asset-owner/bs-asset-owner-player.pdf" type="application/pdf"></object>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>								  
+            <!-- Modal END-->
+			
+			
+
+			
+			
+			<main class="content mt-6">
+			  <div class="container-fluid p-lg-0 mt-3">
+                  <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                    <ol class="breadcrumb lead">
+                      <li class="breadcrumb-item"><a href="play-index.html" class="link-primary">Home</a></li>
+                      <li class="breadcrumb-item text-dark"><a href="play-index.html#(grid|filter)=.Category1;" class="link-primary">Buy-Side</a></li>
+                      <li class="breadcrumb-item text-dark" aria-current="page">Asset Owner (External Fund Allocator)</li>
+                    </ol>
+                  </nav>
+			<div class="row mt-5">
+			<div class="col-12">
+				<div class="card rounded-0">	
+					<!-- Content START-->
+					<section class="section-01" id="01">
+
+						<!-- Description START-->
+                        <div class="container-fluid"  data-field="content" name="1">
+					              <div class="display-6 fw-bold my-5">Asset Owner (External Fund Allocator)</div>
+                            <p class="lead">Dive deeper into your clients’ workflows and plan how to position relevant Bloomberg solutions.</p>
+
+                              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2 g-lg-3 text-center mt-5">
+                                <div class="col">
+                                  <a class="btn btn-gray-efefef btn-lg rounded-0 p-4 d-md-block d-block" href="play-bs-asset-owner-meet.html"
+                                    role="button">Meet the Player</a>
+                                </div>
+                                <div class="col">
+                                  <a class="btn btn-blue-00adee btn-lg rounded-0 p-4 d-md-block d-block" href="play-bs-asset-owner-workflow.html"
+                                    role="button">Player Workflow</a>
+                                </div>
+                                <div class="col">
+                                  <a class="btn btn-gray-efefef btn-lg rounded-0 p-4 d-md-block d-block" href="play-bs-asset-owner-prepare.html"
+                                    role="button">Prepare for a Meeting</a>
+                                </div>
+                                <div class="col">
+                                  <a class="btn btn-gray-efefef btn-lg rounded-0 p-4 d-md-block d-block"
+                                    href="play-bs-asset-owner-solutions.html" role="button">Solutions</a>
+                                </div>
+                              </div>
+								
+		  
+            <!--TAB 2: Player Workflow START-->
+                            <div class="container-fluid mt-6" >
+                               <h3 class="mt-5 mb-4 text-black">Player Workflow</h3>
+                                <div class="d-flex justify-content-between mb-4">								
+                                  <p class="">Learn about an Asset Owner's key</p>
+                                  <button data-bs-toggle="modal" data-bs-target="#player" data-track-content data-content-name="Player Workflow"
+                                    data-content-piece="PLAY | Buy-Side | Asset Owner | PDF link" type="button"
+                                    class="btn btn-primary rounded-0 btn-lg">Download <i class="align-middle feather-16 ms-1 mb-1"
+                                      data-feather="download"></i>
+                                  </button>
+                                </div>
+                                <div class="ratio" style="--bs-aspect-ratio: 62%;" data-track-content data-content-name="Asset Owner Player Workflow" data-content-piece="PLAY | Buy-Side | Asset Owner | Video link">
+                                  <iframe src="players/bs-asset-owner/workflow/story.html" title="Buy-Side Asset Owner workflow video" allowfullscreen></iframe>
+                                </div>
+                            </div>
+
+
+
+						</div>
+						</section>
+
+
+
+					  	</div>
+					  </div>
+				  </div>
+
+				</div>
+			</main>
+
+			<footer class="footer">
+				<div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-center">
+                  <div class="py-1 mx-2 flex-grow-1 small">&copy; 2024 Bloomberg Finance L.P. All rights reserved. Confidential and Proprietary to Bloomberg / Not for External Distribution</div>
+                  <div class="py-1 mx-2 small">Brought to you by FSKG</div>
+                  <div class="py-1 mx-2 small link-primary fw-bold"><!--<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=in5PNecSb0G8QAass3T1jUqOguP1ky1Hn-4Htoo9QwdUM0hUWjlKTFowNksxOU0yOVo2MVo1SVdTWS4u&embed=true" target="_blank">Send feedback</a>-->
+                    <a class="btn btn-primary rounded-0" href="https://forms.office.com/Pages/ResponsePage.aspx?id=in5PNecSb0G8QAass3T1jUqOguP1ky1Hn-4Htoo9QwdUM0hUWjlKTFowNksxOU0yOVo2MVo1SVdTWS4u&embed=true" target="_blank" role="button">SEND FEEDBACK</a>
+                    </div>
+                </div>
+				</div>
+			</footer>
+        <a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Scroll to top"></a>
+        <!-- scroll to top button end-->
+		</div>
+	</div>
+	
+	
+
+
+<script src="js/app.js"></script>
+
+<script>
+$(document).ready(function() {
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 20) {
+      $('#toTopBtn').fadeIn();
+    } else {
+      $('#toTopBtn').fadeOut();
+    }
+  });
+
+  $('#toTopBtn').click(function() {
+    $("html, body").animate({
+      scrollTop: 0
+    }, 50);
+    return false;
+  });
+});	
+</script>
+
+
+</body>
+</html>
