@@ -2,19 +2,7 @@
 
 var LUNR_CONFIG = {
   resultsElementId: "searchResults", // Element to contain results
-  countElementId: "resultCount", // Element showing number of results
 };
-
-// Get URL arguments
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return "";
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
 
 function extractArrays(obj) {
   let arrays = [];
@@ -47,12 +35,10 @@ function createPreview(item, result) {
     .sort((a, b) => a[0] - b[0])
     .flat();
 
-  console.log(array)
   const length = array.length 
   for (let i = 0; i < length; i += 2) {
     let startPos = array[i] + resize
     let endPos = array[i] + (array[i + 1]) + resize;
-    console.log(resize + "  " + i)
     preview =
       preview.slice(0, startPos) +
       markS +
@@ -80,7 +66,6 @@ function parseLunrResults(results) {
       elName = item["elN"],
       link = item["l"];
     
-
     var result =
       '<p><span class="result-title"><a href="' +
       link +
@@ -92,6 +77,7 @@ function parseLunrResults(results) {
       "</p>";
     html.push(result);
   }
+  console.log(results.length)  
   if (html.length) {
     if (html.length > 5) {
       return html.slice(0, 5).join("");
@@ -142,11 +128,8 @@ function filteredResults(results) {
 
   if (filterResults.length >= 1) {
     return filterResults;
-  }
-  if (results.length < 3) {
-    return results;
-  } else {
-    return results[0];
+  }else {
+    return results.splice(0,1);
   }
 }
 
@@ -164,9 +147,11 @@ function searchLunr(query) {
 
 // When the window loads, read query parameters and perform search
 window.onload = function () {
-  var query = getParameterByName("q");
-  if (query != "" && query != null) {
-    document.forms.lunrSearchForm.q.value = query;
-    searchLunr(query);
-  }
+  const userIn = document.getElementById("queryInput");
+  userIn.addEventListener("input", (e) => {
+    let query = e.target.value
+    if (query != "" && query != null) {
+      searchLunr(query);
+    }
+  });
 };

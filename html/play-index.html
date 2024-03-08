@@ -31,9 +31,6 @@
 
   gtag('config', 'G-QSBMW9FHPQ');
 </script>
-<!-- search package import -->
-<script src="https://unpkg.com/lunr/lunr.js"></script>
-
 <!-- Matomo -->
 <script>
   var _paq = window._paq = window._paq || [];
@@ -51,9 +48,13 @@
 </script>
 <!-- End Matomo Code -->
 
-	
+<!-- matching algo -->
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+<!-- front end client  -->
 <script src="./lunrClient.js"></script>
+<!-- search index -->
 <script src="./lunrIndex.js"></script>
+
 <style>
 .second-link {
   /* required */
@@ -74,56 +75,53 @@
 <body data-theme="dark" data-layout="boxed" data-sidebar-position="left" data-sidebar-behavior="sticky" style="background-color: #fff; background-image:url('img/bg.svg');">
 	
 <!--<body data-theme="dark" data-layout="boxed-md" data-sidebar-position="left" data-sidebar-behavior="fixed" style="background-image:url('img/bg.svg');">-->
-
+    
 
 
 	<div class="wrapper" style="background-color: #f8f8f8;">
+
     <nav class="navbar navbar-expand-lg navbar-dark menu-wrapper bg-dark fixed-top" aria-label="Play navbar">
       <div class="container-fluid">
         <div class="collapse navbar-collapse d-flex" id="navbarsPlay">
-          <a class="link-light text-decoration-none fw-bold col-6 me-0 py-0 mb-0 fs-3" href="play-index.html">Player
-            Portal</a>
-          <div class="d-flex col-6 justify-content-end">
-            <span><img src="img/bloomberg-logo-white.svg" class="text-white" alt="..."></span>
-          </div>
+          <div class="flex-grow-1 me-4"><a class="link-light text-decoration-none fw-bold me-0 py-0 mb-0 fs-3" href="play-index.html">Player
+                    Portal</a></div>
+          <div class="me-4"><a data-bs-toggle="modal" data-bs-target="#search"><img src="img/search-bar.png" class="text-dark" style="" alt="..."></a></div>
+          <div><img src="img/bloomberg-logo-white.svg" class="text-white" alt="..."></div>
         </div>
       </div>
     </nav>
-        
-        
+
 		<div class="main mt-lg-6 mt-5">
 
+        <header>
 
-<header>
-    
 
-  <!-- This div is  intentionally blank. It creates the transparent black overlay over the video which you can modify in the CSS -->
-  <div class="overlay"></div>
+          <!-- This div is  intentionally blank. It creates the transparent black overlay over the video which you can modify in the CSS -->
+          <div class="overlay"></div>
 
-  <!-- The HTML5 video element that will create the background video on the header -->
-  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" style="margin: -50px 0 0 0;">
-    <source src="img/bg-play-fishtank-header.mp4" type="video/mp4">
-  </video>
+          <!-- The HTML5 video element that will create the background video on the header -->
+          <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" style="margin: -50px 0 0 0;">
+            <source src="img/bg-play-fishtank-header.mp4" type="video/mp4">
+          </video>
 
-  <!-- The header content -->
-  <div class="container h-100">
-    <div class="d-flex h-100 text-left align-items-center">
-      <div class="w-100">
-        <span class="display-3 fw-bold text-white">PLAY</span><span class="text-white font-monospace fs-2">&#60;GO&#62;</span>
-        <p class="h1 mt-3 text-white">Welcome to the Player Portal</p>
-      </div>
-    </div>
-  </div>
-</header>
+          <!-- The header content -->
+          <div class="container h-100">
+            <div class="d-flex h-100 text-left align-items-center">
+              <div class="w-100">
+                <span class="display-3 fw-bold text-white">PLAY</span><span class="text-white font-monospace fs-2">&#60;GO&#62;</span>
+                <p class="h1 mt-3 text-white">Welcome to the Player Portal</p>
+              </div>
+            </div>
+          </div>
+        </header>
             
-			<main class="content">
+		<main class="content">
 
-				
-	
+
       <div class="grid-section">
 
 		<div class="container-fluid my-4 px-lg-6 px-0" >
-		<p class="lead text-center mb-4"  >Ready to hit your 2024 goals? Uncover our customers' core needs and workflows to build stronger connections.</p>
+		<p class="lead text-center mb-4">Ready to hit your 2024 goals? Uncover our customers' core needs and workflows to build stronger connections.</p>
 		
 		<div class="content grid-container px-0">
 		<div class="row mb-5" >
@@ -139,17 +137,6 @@
 			  <li><a href="#" class=" rounded-pill px-4" data-filter=".Category2">Sell-Side</a></li>
 			  <li><a href="#" class=" rounded-pill px-4" data-filter=".Category3">Corporations</a></li>
 			</ul>
-      
-      <!-- search box -->
-      <form class="d-flex" role="search" id="lunrSearchForm" name="lunrSearchForm">
-        <input class="form-control me-2" name='q' type="search" id="indexSearchBox" placeholder="Search" aria-label="Search">
-        <input class="btn btn-outline-success" type="submit" id="indexSearchBtn"></input>
-      </form>
-    <div id="searchResults">
-
-    </div>
-
-
 
 		</div>	
 		</div>	
@@ -157,20 +144,14 @@
 
 		<div id="grid">	
 
-
-
-
-
-
-
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category1" >
+		        <div class="media-box Category1">
 					
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-blue-00adee border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-bs-asset-owner-meet.html" class="stretched-link">
                       <div class="col-lg-12">
-                          <h5 class="mb-0 fw-bold text-black" >Asset Owner</h5>
+                          <h5 class="mb-0 fw-bold text-black">Asset Owner</h5>
 						  <p class="pt-0 mb-4 text-black">Buy-Side</p>
                           <ul class="d-flex flex-column gap-1 list-unstyled small mb-0 pt-2">
                             <li><a href="play-bs-asset-owner-meet.html" class="link-offset-2 link-underline link-underline-opacity-25 link-underline-opacity-75-hover link-dark second-link">Meet the Player</a></li>
@@ -181,10 +162,11 @@
                       </div>
                       </a>
                     </div>
-		         </div>
+
+		        </div>
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category1" >
+		        <div class="media-box Category1">
 					
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-blue-00adee border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-bs-portfolio-manager-meet.html" class="stretched-link">
@@ -223,7 +205,7 @@
 		        </div>
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category1" >
+		        <div class="media-box Category1">
 					
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-blue-00adee border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-bs-execution-trader-meet.html" class="stretched-link">
@@ -242,7 +224,7 @@
 					
 
 		        </div>
-		        <div class="media-box Category2" >
+		        <div class="media-box Category2">
 
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-green-01d2b3 border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-ss-salesperson-meet.html" class="stretched-link">
@@ -262,7 +244,7 @@
 		        </div>
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category2" >
+		        <div class="media-box Category2">
 
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-green-01d2b3 border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-ss-research-analyst-meet.html" class="stretched-link">
@@ -282,7 +264,7 @@
 		        </div>
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category2" >
+		        <div class="media-box Category2">
 
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-green-01d2b3 border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-ss-equity-trader-meet.html" class="stretched-link">
@@ -302,7 +284,7 @@
 		        </div>
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category2" >
+		        <div class="media-box Category2">
 
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-green-01d2b3 border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-ss-credit-trader-meet.html" class="stretched-link">
@@ -322,7 +304,7 @@
 		        </div>
 
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category3" >
+		        <div class="media-box Category3">
 					
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-purple-5d32d7 border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-co-corporate-ir-meet.html" class="stretched-link">
@@ -342,7 +324,7 @@
 		        </div>
 			
 		<!-- -------------------------- BOX MARKUP -------------------------- -->      
-		        <div class="media-box Category3" >
+		        <div class="media-box Category3">
 
                   <div class="playcard bg-gray-ebebeb d-flex flex-column flex-lg-row align-items-stretch justify-content-start p-3 border border-6 border-purple-5d32d7 border-start-0 border-end-0 border-bottom-0 shadow-lg" data-bs-theme="dark">
                       <a href="play-co-corporate-treasurer-meet.html" class="stretched-link">
@@ -391,7 +373,78 @@
         <!-- scroll to top button end-->
         
 		</div>
-	</div>
+        
+        
+                <!-- Modal START-->
+                <div class="modal fade" id="search"  tabindex="-1" aria-labelledby="searchLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="searchLabel">Search</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" style="background-color: #d3d0d0;">
+                      <!--Lunr search bar and results to start here-->
+                        <div class="input-group input-group-lg mb-3">
+                          <input type="text" class="form-control" placeholder="Search" id="queryInput" aria-label="Search" aria-describedby="inputGroup-sizing-lg">
+                        </div>
+                        <div id="searchResults">
+
+                          <!--Sales Academy list START-->
+                          <div class="ms-2 mt-4">
+                            <a href="" class="" target="_blank">
+                              <h6 class="link-primary">Sales Academy</h6>
+                            </a>
+                            <div class="list-group">
+                              <a href="#" class="list-group-item list-group-item-action list-group-item-light" aria-current="true">
+                                <div class="d-flex w-100 justify-content-between">
+                                  <h6 class="mb-1">List group item heading</h6>
+                                  <small>Web</small>
+                                </div>
+                                <small class="mb-1">Some placeholder content in a paragraph.</small>
+                              </a>
+                              <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+                                <div class="d-flex w-100 justify-content-between">
+                                  <h6 class="mb-1">List group item heading</h6>
+                                  <small>PDF</small>
+                                </div>
+                                <small class="mb-1">Some placeholder content in a paragraph.</small>
+                              </a>
+                            </div>
+                          </div>
+                          <!--Sales Academy list END-->
+                          
+                          <!--EOM list START-->
+                          <div class="ms-2 mt-4">
+                            <a href="" class="" target="_blank">
+                              <h6 class="link-primary">EOM</h6>
+                            </a><!--Example list START-->
+                            <div class="list-group">
+                              <a href="#" class="list-group-item list-group-item-action list-group-item-light" aria-current="true">
+                                <div class="d-flex w-100 justify-content-between">
+                                  <h6 class="mb-1">List group item heading</h6>
+                                  <small>Terminal</small>
+                                </div>
+                                <small class="mb-1">Some placeholder content in a paragraph.</small>
+                              </a>
+                            </div>
+                          </div>
+                          <!--EOM list END-->
+
+                        </div>
+
+                      <!--Lunr search bar and results to end here-->
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!-- Modal END-->    
+        
+        
+	
 
 	<script src="js/app.js"></script>
 
@@ -410,54 +463,7 @@
 	<script src="media-boxes-filter/js/jquery.mediaBoxes.dropdown.js"></script>
 	<script src="media-boxes-filter/js/jquery.mediaBoxes.js"></script>
 
-<script type="module" >
-//   import documents from './searchDocument.js'
-//   import lunarIndex from './lunarIndex.js'
-  
-//  index = JSON.parse(lunarIndex)
-
-//   var searchEngine = lunr(function () {
-//     this.ref('url')
-//     this.field('body')
-//     this.field('text')
-
-//     this.metadataWhitelist = ['position']
-//     index.forEach(function (doc) {
-//       this.add(doc)
-//     }, this)
-//   })
-  
-//   const searchBtn = document.getElementById('indexSearchBtn')
-//   const searchResults = document.getElementById('searchResults')
-//   const searchBox = document.getElementById('indexSearchBox')
-
-//   searchBox.addEventListener('input', async () => {
-//     const searchTerm = searchBox.value.trim();
-//     const result = await searchEngine.search(searchTerm);
-
-//     let pTag;
-//     let responseBoxes = []
-     
-//     if (result.length === 0) {
-//       pTag = `<p>No results found</p>`;
-//       searchResults.innerHTML = []
-//     } else {
-//       searchResults.innerHTML = []
-//       result.forEach((e)=>{ responseBoxes.push(`<a href=${e.ref} >${e.ref}</a>`) })
-//       responseBoxes.forEach((e) => {
-//         searchResults.innerHTML += e
-//       })
-
-//     }
-
-
-//     console.log(result);
-  // });
-
-</script>
-
-
-<script>
+	<script>
 		
 	    $('#grid').mediaBoxes({
 	    	filterContainer: '#filter',
@@ -471,7 +477,8 @@
         	popup: 'magnificpopup'
 	    }); 
 
-</script>
+	</script>
+
 <script>
 $(document).ready(function() {
   $(window).scroll(function() {
