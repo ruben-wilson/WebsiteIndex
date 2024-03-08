@@ -48,8 +48,8 @@ function createPreview(item, result) {
     .flat();
 
   console.log(array)
-  let pLength = preview.split("").length;
-  for (let i = 0; i < array.length; i += 2) {
+  const length = array.length 
+  for (let i = 0; i < length; i += 2) {
     let startPos = array[i] + resize
     let endPos = array[i] + (array[i + 1]) + resize;
     console.log(resize + "  " + i)
@@ -146,7 +146,7 @@ function filteredResults(results) {
   if (results.length < 3) {
     return results;
   } else {
-    return results.splice(0, 1);
+    return results[0];
   }
 }
 
