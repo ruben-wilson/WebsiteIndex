@@ -6,7 +6,7 @@ var cheerio = require("cheerio");
 const HTML_FOLDER = "html"; // folder with your HTML files
 // Valid search fields: "title", "description", "keywords", "body"
 const SEARCH_FIELDS = ["title", "description", "keywords", "body"];
-const EXCLUDE_FILES = ["search.html"];
+const EXCLUDE_FILES = ["play-index.html"];
 const MAX_PREVIEW_CHARS = 1000; // Number of characters to show for a given search result
 const OUTPUT_INDEX = "./html/lunrIndex.js"; // Index file
 
@@ -45,6 +45,10 @@ function findHtml(folder) {
   return htmls;
 }
 
+function formatContent(body){
+  console.log(body)
+}
+
 function readHtml(root, file, fileId) {
   var filename = path.join(root, file);
   var txt = fs.readFileSync(filename).toString();
@@ -56,24 +60,35 @@ function readHtml(root, file, fileId) {
   var keywords = $("meta[name=keywords]").attr("content");
   if (typeof keywords == "undefined") keywords = "";
   var body = $("body");
+  formatContent(body)
   var content = $('[data-field=content]');
   if (typeof body == "undefined") body = "";
 
-  subDocs = [];
-  for(let i = 0; i < (content.length); i ++){
-    var data = {
-      id: [fileId, i],
+  // subDocs = [];
+  // for(let i = 0; i < (content.length); i ++){
+  //   let data = {
+  //     id: [fileId, i],
+  //     link: file,
+  //     t: title,
+  //     d: description,
+  //     k: keywords,
+  //     b: content.eq(i).text().trim(),
+  //     elN: content.eq(i).attr("name"),
+  //   };
+  //   subDocs.push(data)
+
+  // }
+
+  let data = {
+      id: [fileId],
       link: file,
       t: title,
       d: description,
       k: keywords,
-      b: content.eq(i).text().trim(),
-      elN: content.eq(i).attr("name"),
+      b: body.text().trim(),
     };
-    subDocs.push(data)
-
-  }
-  return subDocs;
+  // return subDocs;
+  return data;
 }
 
 
@@ -121,7 +136,7 @@ function main() {
     console.log("    " + files[i]);
     docs.push(readHtml(HTML_FOLDER, files[i], i));
   }
-  docs = docs.flat()
+  // docs = docs.flat()
   var idx = buildIndex(docs);
   var previews = buildPreviews(docs);
   var js =
@@ -140,3 +155,7 @@ function main() {
 }
 
 main();
+
+module.exports = {
+  formatContent
+}

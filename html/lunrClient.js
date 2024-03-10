@@ -4,6 +4,7 @@ var LUNR_CONFIG = {
   resultsElementId: "searchResults", // Element to contain results
 };
 
+// extract all match postions form Response
 function extractArrays(obj) {
   let arrays = [];
 
@@ -23,6 +24,7 @@ function extractArrays(obj) {
   exploreObject(obj);
   return arrays;
 }
+
 
 function createPreview(item, result) {
   let preview = item["p"];
@@ -89,35 +91,6 @@ function parseLunrResults(results) {
   }
 }
 
-function escapeHtml(unsafe) {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function showResultCount(query, total, domElementId) {
-  if (total == 0) {
-    return;
-  }
-
-  var s = "";
-  if (total > 1) {
-    s = "s";
-  }
-  var found = "<p>Found " + total + " result" + s;
-  if (query != "" && query != null) {
-    query = escapeHtml(query);
-    var forQuery = ' for <span class="result-query">' + query + "</span>";
-  } else {
-    var forQuery = "";
-  }
-  var element = document.getElementById(domElementId);
-  element.innerHTML = found + forQuery + "</p>";
-}
-
 function filteredResults(results) {
   let filterResults = [];
   results.forEach((result) => {
@@ -141,8 +114,6 @@ function searchLunr(query) {
   var resultHtml = parseLunrResults(results);
   var elementId = LUNR_CONFIG["resultsElementId"];
   document.getElementById(elementId).innerHTML = resultHtml;
-  // var count = results.length;
-  // showResultCount(query, count, LUNR_CONFIG["countElementId"]);
 }
 
 // When the window loads, read query parameters and perform search
