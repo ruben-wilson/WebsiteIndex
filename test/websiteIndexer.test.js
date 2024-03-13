@@ -59,31 +59,30 @@ describe("findHtml", () => {
   });
 
   it("Finds file in subdirectory", () => {
-    // Mock file system and path operations
+    // checks if folder exists
     fs.existsSync.mockReturnValue(true);
+    // returns names of all files in folder
+    fs.readdirSync.mockReturnValueOnce(["subFolder"]);
 
-    // First call for the root directory, then for the subdirectory
-    fs.readdirSync
-      .mockReturnValueOnce(["subFolder"]) // For the root directory
-      .mockReturnValueOnce(["file1.html"]); // For the subdirectory
+    // joins name of file with path
+    path.join.mockReturnValueOnce("./html/subFolder");
+    // returns an object with detials about the file/dir object
+    fs.lstatSync.mockReturnValueOnce({ isDirectory: () => true });
 
-    // Mock path.join to return correct values for each call
-    path.join
-      .mockReturnValueOnce("./html/subFolder") // For navigating into subFolder
-      .mockReturnValueOnce("./html/subFolder/file1.html"); // For the file path
+    // calls self with its self with sub dir as argument
+    // checks if folder exists
+    fs.existsSync.mockReturnValueOnce(true);
+    // returns names of all files in folder
+    fs.readdirSync.mockReturnValueOnce(["file1.html"]);
 
-    // Mock fs.lstatSync to first return a directory, then a file
-    fs.lstatSync
-      .mockReturnValueOnce({ isDirectory: () => true }) // subFolder is a directory
-      .mockReturnValueOnce({ isDirectory: () => false }); // file1.html is a file
+    // joins name of file with path
+    path.join.mockReturnValueOnce("./html/subFolder/file1.html");
+    // returns an object with detials about the file/dir object
+    fs.lstatSync.mockReturnValueOnce({ isDirectory: () => false });
 
     indexer = new Indexer([], fs);
-    const response = indexer.findHtml("./html");
-
-    // Log for debugging
+    response = indexer.findHtml("./html");
     console.log(response);
-
-    // Assertion
     expect(response).toEqual(["subFolder/file1.html"]);
   });
 
@@ -93,7 +92,7 @@ describe("findHtml", () => {
     // checks if folder exists
     fs.existsSync.mockReturnValue(true);
     // returns names of all files in folder
-    fs.readdirSync.mockReturnValueOnce(["file", "subFolder"]);
+    fs.readdirSync.mockReturnValueOnce(["file.html", "subFolder"]);
 
     // joins name of file with path
     path.join.mockReturnValueOnce("./html/file.html");
