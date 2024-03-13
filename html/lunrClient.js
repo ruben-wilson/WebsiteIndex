@@ -27,7 +27,7 @@ function extractArrays(obj) {
 
 
 function createPreview(item, result) {
-  let preview = item["p"];
+  let preview = item["c"];
   const fPs = result.matchData.metadata;
   const markS = "<mark>";
   const markE = "</mark>";
@@ -56,30 +56,39 @@ function createPreview(item, result) {
   // console.log(preview.split("").slice(321, 330));
 }
 
+function resultHtml(wName, title, content, link){
+    return `<div class="ms-2 mt-4">
+                <a href="" class="" target="_blank">
+                  <h6 class="link-primary">${wName}</h6>
+                </a>
+                <div class="list-group">
+                  <a href=${link} class="list-group-item list-group-item-action list-group-item-light" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h6 class="mb-1">${title}</h6>
+                      <small>Terminal</small>
+                    </div>
+                    <small class="mb-1">${content}</small>
+                  </a>
+                </div>
+              </div>`;
+}
 // Parse search results into HTML
 function parseLunrResults(results) {
   let html = [];
+
   for (let i = 0; i < results.length; i++) {
+
     let id = results[i]["ref"],
       item = PREVIEW_LOOKUP[id],
       title = item["t"],
-      // preview = item['p'],
+      wName = item["w"],
       preview = createPreview(item, results[i]),
-      elName = item["elN"],
       link = item["l"];
-    
-    var result =
-      '<p><span class="result-title"><a href="' +
-      link +
-      '">' +
-      title +
-      '</a></span><br><span class="result-preview">' +
-      preview +
-      "</span>" +
-      "</p>";
-    html.push(result);
+
+ 
+    html.push(resultHtml(wName, title, preview, link));
   }
-  console.log(results.length)  
+ 
   if (html.length) {
     if (html.length > 5) {
       return html.slice(0, 5).join("");
@@ -126,3 +135,4 @@ window.onload = function () {
     }
   });
 };
+

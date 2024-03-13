@@ -6,7 +6,7 @@
     "lunr": "^2.3.9"
   },
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12"
