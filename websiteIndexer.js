@@ -13,12 +13,11 @@ const OUTPUT_INDEX = "./html/lunarIndex.js"; // Index file
 class Indexer{
 
   constructor(args, fs){
+    this.fs = fs;
 
     if(args.length > 2){
       args[2].toLowerCase() == "run" && this.main();
     }
-
-    this.fs = fs;
     
   }
 
@@ -157,7 +156,6 @@ class Indexer{
 
   main() {
     console.log("Running ...");
-
     const files = this.findHtml(HTML_FOLDER);
     let docs = [];
 
@@ -177,7 +175,7 @@ class Indexer{
       JSON.stringify(previews) +
       ";";
 
-    fs.writeFile(OUTPUT_INDEX, js, function (err) {
+    fs.writeFile(OUTPUT_INDEX, js,  (err) => {
       if (err) {
         return console.log(err);
       }
