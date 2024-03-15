@@ -7,8 +7,12 @@ describe("findHtml() finds all file names which end with .html", () => {
   const fs = require("fs");
   const path = require("path");
 
+  let indexer;
+
   beforeEach(() => {
     jest.restoreAllMocks();
+
+    indexer = new Indexer(fs, path);
   });
 
   it("Finds file in directory", () => {
@@ -22,7 +26,6 @@ describe("findHtml() finds all file names which end with .html", () => {
     // returns an object with detials about the file/dir object
     fs.lstatSync.mockReturnValue({ isDirectory: () => false });
 
-    indexer = new Indexer([], fs);
     expect(indexer.findHtml("./html")).toEqual(["file1.html"]);
   });
 
@@ -47,7 +50,6 @@ describe("findHtml() finds all file names which end with .html", () => {
     // returns an object with detials about the file/dir object
     fs.lstatSync.mockReturnValue({ isDirectory: () => false });
 
-    indexer = new Indexer([], fs);
     expect(indexer.findHtml("./html")).toEqual([
       "file1.html",
       "file2.html",
@@ -73,11 +75,12 @@ describe("findHtml() finds all file names which end with .html", () => {
     fs.readdirSync.mockReturnValueOnce(["file1.html"]);
 
     // joins name of file with path
-    path.join.mockReturnValueOnce("./html/subFolder/file1.html");
+    path.join.mockReturnValueOnce("/subFolder/file1.html");
     // returns an object with detials about the file/dir object
     fs.lstatSync.mockReturnValueOnce({ isDirectory: () => false });
 
-    indexer = new Indexer([], fs);
+    path.join.mockReturnValueOnce("subFolder/file1.html");
+
     response = indexer.findHtml("./html");
     expect(response).toEqual(["subFolder/file1.html"]);
   });
@@ -106,7 +109,8 @@ describe("findHtml() finds all file names which end with .html", () => {
     // returns an object with detials about the file/dir object
     fs.lstatSync.mockReturnValueOnce({ isDirectory: () => false });
 
-    indexer = new Indexer([], fs);
+    path.join.mockReturnValueOnce("subFolder/file2.html");
+
     response = indexer.findHtml("./html");
     expect(response).toEqual(["file.html", "subFolder/file2.html"]);
   });

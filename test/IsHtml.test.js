@@ -7,7 +7,7 @@ describe("isHtml() decides if file is a .html file returns true or false", () =>
   const fs = require("fs");
 
   beforeEach(() => {
-    indexer = new Indexer([], fs);
+    indexer = new Indexer(fs);
   });
 
   it("return true when passed a html fileName with.html and false when without", () => {

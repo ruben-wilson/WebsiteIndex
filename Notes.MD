@@ -8,3 +8,4 @@
 - can manually include html 
 - testable 
 - clean and refactored code 
+- can take in strings to remove from index

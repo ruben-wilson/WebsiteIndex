@@ -10,15 +10,17 @@ const EXCLUDE_FILES = ["play-index.html"];
 const MAX_PREVIEW_CHARS = 1000; // Number of characters to show for a given search result
 const OUTPUT_INDEX = "./html/lunarIndex.js"; // Index file
 
-class Indexer{
-
-  constructor(args, fs){
+class Indexer {
+  constructor(fs, path, cheerio, htmlFolder, maxPreviewChars, lunr) {
     this.fs = fs;
+    this.path = path;
+    this.lunr = lunr;
 
-    if(args.length > 2){
-      args[2].toLowerCase() == "run" && this.main();
-    }
-    
+    this.htmlFolder = htmlFolder;
+    this.maxPreviewChars = maxPreviewChars;
+    this.cheerio = cheerio;
+    this.searchFields = ["title", "content"];
+    this.exclude_files = [];
   }
 
   isHtml(filename) {
@@ -26,29 +28,33 @@ class Indexer{
     return lower.endsWith(".html");
   }
 
- findHtml(folder) {
-  if (!this.fs.existsSync(folder)) {
-    console.log("Could not find folder: ", folder);
-    return [];
-  }
-
-  let files = this.fs.readdirSync(folder);
-  let htmls = [];
-  for (let i = 0; i < files.length; i++) {
-    let filename = path.join(folder, files[i]);
-    let stat = this.fs.lstatSync(filename);
-    if (stat.isDirectory()) {
-      let recursed = this.findHtml(filename);
-      for (let j = 0; j < recursed.length; j++) {
-        recursed[j] = path.join(files[i], recursed[j]).replace(/\\/g, "/");
-      }
-      htmls.push.apply(htmls, recursed);
-    } else if (this.isHtml(filename) && !EXCLUDE_FILES.includes(files[i])) {
-      htmls.push(files[i]);
+  findHtml(folder) {
+    if (!this.fs.existsSync(folder)) {
+      console.log("Could not find folder: ", folder);
+      return [];
     }
+
+    let files = this.fs.readdirSync(folder);
+    let html = [];
+
+    for (const file of files) {
+      let filename = this.path.join(folder, file);
+      let stat = this.fs.lstatSync(filename);
+
+      if (stat.isDirectory()) {
+        let recursed = this.findHtml(filename);
+
+        recursed.forEach((subFile, index) => {
+          recursed[index] = this.path.join(file, subFile).replace(/\\/g, "/");
+        });
+
+        html.push.apply(html, recursed);
+      } else if (this.isHtml(filename) && !this.exclude_files.includes(file)) {
+        html.push(file);
+      }
+    }
+    return html;
   }
-  return htmls;
-}
 
   removeDuplicates(arr) {
     for (let i = 0; i < arr.length; i++) {
@@ -61,49 +67,36 @@ class Indexer{
         }
       }
     }
-
     return arr;
   }
 
   readHtml(root, file, fileId) {
-    let filename = path.join(root, file);
-    let txt = fs.readFileSync(filename).toString();
-    let $ = cheerio.load(txt);
-    let title = $("title").text();
+    let filename = this.path.join(root, file),
+      txt = this.fs.readFileSync(filename).toString(),
+      $ = this.cheerio.load(txt),
+      title = $("title").text();
     if (typeof title == "undefined") title = file;
-    let description = $("meta[name=description]").attr("content");
-    if (typeof description == "undefined") description = "";
-    let keywords = $("meta[name=keywords]").attr("content");
-    if (typeof keywords == "undefined") keywords = "";
-    let body = $("body");
-    let content = $("[data-field=content]");
-    if (typeof body == "undefined") body = "";
 
+    // traverse through cheerio object to find all text content
     let results = [];
     let i = 0;
-
     function findTextContent(element) {
       if (element.type === "text") {
         if (
-          element.data.trim().length !== 0 &&
-          element.parent.name !== "script"
+          (element.data.trim().length !== 0) &
+          (element.parent.name !== "script") &
+          (element.parent.name !== "style") &
+          (element.parent.name !== "title") &
+          (element.parent.name !== "a")
         ) {
-          if (
-            (element.parent.name !== "script") &
-            (element.parent.name !== "style") &
-            (element.parent.name !== "title") &
-            (element.parent.name !== "a")
-          ) {
-
-            results.push({
-              id: [fileId, i],
-              link: file,
-              t: title,
-              c: element.data,
-              e: element.parent.name || "N/A",
-            });
-            i++;
-          }
+          results.push({
+            id: [fileId, i],
+            link: file,
+            t: title,
+            c: element.data,
+            e: element.parent.name || "N/A",
+          });
+          i++;
         }
       }
 
@@ -114,35 +107,40 @@ class Indexer{
       }
       return results;
     }
-    results = findTextContent($.root()[0]);
 
-    return results.flat();
+    results = findTextContent($.root()[0]);
+    // remove duplicate els
+    return this.removeDuplicates(results).flat();
   }
 
-
   buildIndex(docs) {
-    let idx = lunr(function () {
+    const searchFields = this.searchFields;
+
+    let idx = lunr(function ()  {
       this.ref("id");
-      for (let i = 0; i < SEARCH_FIELDS.length; i++) {
-        this.field(SEARCH_FIELDS[i].slice(0, 1));
-      }
       this.metadataWhitelist = ["position"];
 
-      docs.forEach(function (doc) {
+      for (let i = 0; i < searchFields.length; i++) {
+        this.field(searchFields[i].slice(0, 1));
+      }
+
+      docs.forEach((doc) => {
         this.add(doc);
       }, this);
     });
+
     return idx;
   }
 
   buildPreviews(docs, website) {
+  
     let result = {};
-    for (let i = 0; i < docs.length; i++) {
-      let doc = docs[i];
-
+    for (const doc of docs) {
       let preview = doc["c"];
-      if (preview.length > MAX_PREVIEW_CHARS)
-        preview = preview.slice(0, MAX_PREVIEW_CHARS) + " ...";
+      if (preview.length > this.maxPreviewChars) {
+        preview = preview.slice(0, this.maxPreviewChars) + " ...";
+      }
+
       result[doc["id"]] = {
         t: doc["t"],
         c: preview,
@@ -154,40 +152,41 @@ class Indexer{
     return result;
   }
 
-  main() {
-    console.log("Running ...");
-    const files = this.findHtml(HTML_FOLDER);
-    let docs = [];
+  buildDocumentObj(idx, previews){
 
-    console.log("Building index for these files:");
-    for (let i = 0; i < files.length; i++) {
-      console.log("    " + files[i]);
-      docs.push(this.readHtml(HTML_FOLDER, files[i], i));
-    }
-    docs = docs.flat();
-    let idx = this.buildIndex(docs);
-    let previews = this.buildPreviews(docs, "Player Portal");
-    let js =
+    return (
       "const LUNR_DATA = " +
       JSON.stringify(idx) +
       ";\n" +
       "const PREVIEW_LOOKUP = " +
       JSON.stringify(previews) +
-      ";";
+      ";"
+    );
 
-    fs.writeFile(OUTPUT_INDEX, js,  (err) => {
+  }
+
+  run() {
+    console.log("Running ...");
+    const files = this.findHtml(this.htmlFolder);
+    let docs = [];
+
+    console.log("Building index for these files:");
+    for (let i = 0; i < files.length; i++) {
+      console.log("    " + files[i]);
+      docs.push(this.readHtml(this.htmlFolder, files[i], i));
+    }
+    docs = docs.flat();
+    let idx = this.buildIndex(docs);
+    let previews = this.buildPreviews(docs, "Player Portal");
+  
+    fs.writeFile(this.htmlFolder, this.buildDocumentObj(idx, previews), (err) => {
       if (err) {
         return console.log(err);
       }
-      console.log("Index saved as " + OUTPUT_INDEX);
+      console.log("Index saved as " + this.htmlFolder);
     });
   }
-
 }
-
-// take in commandLine args 
-const args = process.argv;
-new Indexer(args);
 
 module.exports = {
   Indexer
