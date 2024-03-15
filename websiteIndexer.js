@@ -116,7 +116,7 @@ class Indexer {
   buildIndex(docs) {
     const searchFields = this.searchFields;
 
-    let idx = lunr(function ()  {
+    let idx = this.lunr(function () {
       this.ref("id");
       this.metadataWhitelist = ["position"];
 
@@ -133,7 +133,6 @@ class Indexer {
   }
 
   buildPreviews(docs, website) {
-  
     let result = {};
     for (const doc of docs) {
       let preview = doc["c"];
@@ -152,8 +151,7 @@ class Indexer {
     return result;
   }
 
-  buildDocumentObj(idx, previews){
-
+  buildDocumentObj(idx, previews) {
     return (
       "const LUNR_DATA = " +
       JSON.stringify(idx) +
@@ -162,10 +160,20 @@ class Indexer {
       JSON.stringify(previews) +
       ";"
     );
-
   }
 
-  run() {
+  writeToFile(content) {
+    const filePath = path.join(this.htmlFolder, "LunrTestOutput.js");
+
+    this.fs.writeFile(filePath, content, (err) => {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("Index saved as " + this.htmlFolder);
+    });
+  }
+
+  async run() {
     console.log("Running ...");
     const files = this.findHtml(this.htmlFolder);
     let docs = [];
@@ -176,18 +184,16 @@ class Indexer {
       docs.push(this.readHtml(this.htmlFolder, files[i], i));
     }
     docs = docs.flat();
+
     let idx = this.buildIndex(docs);
     let previews = this.buildPreviews(docs, "Player Portal");
-  
-    fs.writeFile(this.htmlFolder, this.buildDocumentObj(idx, previews), (err) => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("Index saved as " + this.htmlFolder);
-    });
+
+    const fileContent = this.buildDocumentObj(idx, previews);
+    await this.writeToFile(fileContent);
   }
 }
 
+
 module.exports = {
-  Indexer
+  Indexer,
 };

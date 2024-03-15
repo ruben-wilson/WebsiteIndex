@@ -1,13 +1,17 @@
 const { Indexer } = require("../websiteIndexer.js");
 
 describe("build Index and adds fields from searchfield", () => {
-jest.mock("lunr");
+let path = require("path");
+let fs = require("fs");
+let lunr = require("lunr");
+let cheerio = require("cheerio");
 
-const fs = require('fs');
-const lunr = require('lunr');
+
+const maxPreviewChars = 1500;
+let htmlFolder;
 
   beforeEach(() => {   
-    indexer = new Indexer(fs, lunr);
+    indexer = new Indexer(fs, path, cheerio, htmlFolder, maxPreviewChars, lunr);
   });
 
   it("correctly asigns fields", () => {
