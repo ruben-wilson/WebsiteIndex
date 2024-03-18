@@ -21,6 +21,7 @@ class Indexer {
     this.cheerio = cheerio;
     this.searchFields = ["title", "content"];
     this.exclude_files = [];
+    this.error = false;
   }
 
   isHtml(filename) {
@@ -162,22 +163,23 @@ class Indexer {
     );
   }
 
-  writeToFile(content) {
-    const filePath = path.join(this.htmlFolder, "LunrTestOutput.js");
-
-    this.fs.writeFile(filePath, content, (err) => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("Index saved as " + this.htmlFolder);
-    });
+  errorHandler(err){
+    if(err){
+      this.error = err;
+    }
   }
 
-  async run() {
+  async writeToFile(content) {
+    const filePath = path.join(this.htmlFolder, "LunrTestOutput.js");
+     await this.fs.writeFile(filePath, content, this.errorHandler);
+     return this.error
+  }
+
+ run() {
     console.log("Running ...");
     const files = this.findHtml(this.htmlFolder);
+    
     let docs = [];
-
     console.log("Building index for these files:");
     for (let i = 0; i < files.length; i++) {
       console.log("    " + files[i]);
@@ -189,7 +191,7 @@ class Indexer {
     let previews = this.buildPreviews(docs, "Player Portal");
 
     const fileContent = this.buildDocumentObj(idx, previews);
-    await this.writeToFile(fileContent);
+    this.writeToFile(fileContent);
   }
 }
 

@@ -1,5 +1,5 @@
 const { Cheerio } = require("cheerio");
-const { Indexer } = require("../websiteIndexer.js");
+const { Indexer } = require("../src/websiteIndexer.js");
 
 describe('buildPreviews() out of doc objects', () => {
 

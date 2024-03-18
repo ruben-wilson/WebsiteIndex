@@ -1,4 +1,4 @@
-const { Indexer } = require("../websiteIndexer.js");
+const { Indexer } = require("../src/websiteIndexer.js");
 
 describe("readHtml() extracts text content of html page", () => {
   jest.mock("fs");
@@ -24,7 +24,6 @@ describe("readHtml() extracts text content of html page", () => {
 
   it("returns empty object if file empty", () => {
     fs.readFileSync.mockReturnValueOnce('')
-    
     expect(indexer.readHtml("./html", file, 1)).toEqual([]);
   });
 

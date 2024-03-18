@@ -1,4 +1,4 @@
-const { Indexer } = require("../websiteIndexer.js");
+const { Indexer } = require("../src/websiteIndexer.js");
 
 describe("findHtml() finds all file names which end with .html", () => {
   jest.mock("fs");

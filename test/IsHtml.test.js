@@ -1,4 +1,4 @@
-const { Indexer } = require("../websiteIndexer.js");
+const { Indexer } = require("../src/websiteIndexer.js");
 
 describe("isHtml() decides if file is a .html file returns true or false", () => {
   let indexer;
