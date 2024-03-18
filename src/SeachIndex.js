@@ -1,10 +1,8 @@
 const DataProcessor = require("./DataProcessor");
 const HtmlReader = require("./HtmlReader");
 
-
-class SearchIndex{
-
-  constructor(websiteName, trgPath, htmlReader, dataProcessor){
+class IndexGenerator {
+  constructor(websiteName, trgPath, htmlReader, dataProcessor) {
     this.websiteName = websiteName;
     this.trgPath = trgPath;
     this.htmlReader = htmlReader;
@@ -16,32 +14,33 @@ class SearchIndex{
     this.previews;
   }
 
-  findHtmlFilePaths(trgPath){
+  findHtmlFilePaths(trgPath) {
     return this.htmlReader.findHtml(trgPath);
   }
 
-  htmlFileToTextContent(projectPath, relativeFilePath, fileId){
+  htmlFileToTextContent(projectName, projectPath, files, fileId) {
+    files.forEach((file, index) => {
+      this.htmlReader.readHtml(projectName, projectPath, file, [fileId, index]);
+    });
     return this.htmlReader.readHtml(projectPath, relativeFilePath, fileId);
   }
 
-  buildIndexes(websiteContent, websiteName){
+  buildIndexes(websiteContent) {
     const idx = this.dataProcessor.buildIndex(websiteContent);
-    const previews = this.dataProcessor.buildPreviews(websiteContent, websiteName);
+    const previews = this.dataProcessor.buildPreviews(websiteContent);
 
-    return [idx, previews];
+    return { idx: idx, previews: previews };
   }
 
-  buildDocumentObj(idx, previews){
+  buildDocumentObj(idx, previews) {
     return this.dataProcessor.buildDocumentObj(idx, previews);
   }
 
-  saveDocumentObj(docObj){
-    return this.dataProcessor.writeToFile(docObj) ? error : false;
+  saveDocumentObj(docObj, projectPath) {
+    return this.dataProcessor.writeToFile(docObj, projectPath) ? error : false;
   }
-
-
 }
 
 module.exports = {
-  SearchIndex
-}
+  SearchIndex,
+};

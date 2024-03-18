@@ -1,4 +1,4 @@
-const { Indexer } = require("../src/websiteIndexer.js");
+const { Indexer } = require("../src/websiteInd.js");
 
 describe("readHtml() extracts text content of html page", () => {
   jest.mock("fs");

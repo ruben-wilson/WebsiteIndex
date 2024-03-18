@@ -1,5 +1,4 @@
 class DataProcessor {
-  
   buildIndex(docs) {
     const searchFields = this.searchFields;
 
@@ -19,7 +18,7 @@ class DataProcessor {
     return idx;
   }
 
-  buildPreviews(docs, website) {
+  buildPreviews(docs) {
     let result = {};
     for (const doc of docs) {
       let preview = doc["c"];
@@ -32,7 +31,7 @@ class DataProcessor {
         c: preview,
         l: doc["link"],
         e: doc["e"],
-        w: website,
+        w: doc["p"],
       };
     }
     return result;
@@ -60,10 +59,8 @@ class DataProcessor {
     await this.fs.writeFile(filePath, content, this.errorHandler);
     return this.error;
   }
-
-
 }
 
 module.exports = {
-  DataProcessor
-}
+  DataProcessor,
+};

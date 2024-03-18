@@ -1,4 +1,4 @@
-const { Indexer } = require("../src/websiteIndexer.js"); 
+const { Indexer } = require("../src/websiteInd.js"); 
 const fs = require("fs").promises;
 const path = require("path");
 

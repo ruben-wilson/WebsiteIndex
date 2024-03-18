@@ -2,7 +2,7 @@ let path = require("path");
 let fs = require("fs");
 let lunr = require("lunr");
 let cheerio = require("cheerio");
-const { Indexer } = require("./src/websiteIndexer");
+const { Indexer } = require("./src/websiteInd");
 
 
 const maxPreviewChars = 1500;

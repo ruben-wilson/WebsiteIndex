@@ -1,6 +1,5 @@
 class HtmlReader {
-
-  constructor(fs, path){
+  constructor(fs, path) {
     this.fs = fs;
     this.path = path;
   }
@@ -52,7 +51,7 @@ class HtmlReader {
     return arr;
   }
 
-  readHtml(root, file, fileId) {
+  readHtml(projectName, root, file, fileId) {
     let filename = this.path.join(root, file),
       txt = this.fs.readFileSync(filename).toString(),
       $ = this.cheerio.load(txt),
@@ -77,6 +76,7 @@ class HtmlReader {
             t: title,
             c: element.data,
             e: element.parent.name || "N/A",
+            p: projectName,
           });
           i++;
         }
@@ -88,13 +88,12 @@ class HtmlReader {
         );
       }
       return results;
-    }
+    };
 
     results = findTextContent($.root()[0]);
     // remove duplicate els
     return this.removeDuplicates(results).flat();
   }
-  
 }
 
 module.exports = {

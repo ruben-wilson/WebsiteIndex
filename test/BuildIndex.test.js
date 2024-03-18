@@ -1,4 +1,4 @@
-const { Indexer } = require("../src/websiteIndexer.js");
+const { Indexer } = require("../src/websiteInd.js");
 
 describe("build Index and adds fields from searchfield", () => {
 let path = require("path");

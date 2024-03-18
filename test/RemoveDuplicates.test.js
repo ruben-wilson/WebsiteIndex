@@ -1,4 +1,4 @@
-const { Indexer } = require("../src/websiteIndexer.js");
+const { Indexer } = require("../src/websiteInd.js");
 
 
 describe("removeDuplicates removes any objects with duplicate content from an array", () => {
