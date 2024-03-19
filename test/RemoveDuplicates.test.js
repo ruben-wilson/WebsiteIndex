@@ -1,19 +1,18 @@
-const { Indexer } = require("../src/websiteInd.js");
-
+const { HtmlReader } = require("../src/HtmlReader");
 
 describe("removeDuplicates removes any objects with duplicate content from an array", () => {
-  let indexer;
+  let htmlReader;
 
-  beforeEach(()=>{
-    indexer = new Indexer([]);
-  })
+  beforeEach(() => {
+    htmlReader = new HtmlReader([]);
+  });
 
   it("it returns an empty array when passed empty array", () => {
-    expect(indexer.removeDuplicates([])).toEqual([]);
+    expect(htmlReader.removeDuplicates([])).toEqual([]);
   });
 
   it("it returns an empty array when passed empty object", () => {
-    expect(indexer.removeDuplicates([{}])).toEqual([{}]);
+    expect(htmlReader.removeDuplicates([{}])).toEqual([{}]);
   });
 
   it("it removes objects with same content", () => {
@@ -22,8 +21,8 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
 
     const results = array.slice(1);
 
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 
   it("it removes same duplicate objects with same content with 3 occurrences", () => {
@@ -31,8 +30,8 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
     const array = [{ ...obj }, { ...obj }, { ...obj }, { c: "Unique Value" }];
 
     const results = [{ ...obj }, { c: "Unique Value" }];
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 
   it("it removes same duplicate objects with same content with 3 occurrences with 1 at end of arr", () => {
@@ -40,8 +39,8 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
     const array = [{ ...obj }, { ...obj }, { c: "Unique Value" }, { ...obj }];
 
     const results = [{ ...obj }, { c: "Unique Value" }];
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 
   it("it removes 2 sets of duplicates", () => {
@@ -56,8 +55,8 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
     ];
 
     const results = [{ ...obj }, { ...obj2 }, { c: "Unique Value" }];
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 
   it("it removes 2 sets of duplicates with more occurrences", () => {
@@ -77,8 +76,8 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
     ];
 
     const results = [{ ...obj }, { ...obj2 }, { c: "Unique Value" }];
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 
   it("it removes multiply sets of duplicates with more occurrences", () => {
@@ -104,8 +103,8 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
       { ...obj2 },
       { c: "Unique Value" },
     ];
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 
   it("it doesn't remove similar content that isn't exact same", () => {
@@ -114,7 +113,7 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
     const array = [{ ...obj }, { ...obj2 }, { c: "Unique Value" }, { ...obj2 }];
 
     const results = [{ ...obj }, { ...obj2 }, { c: "Unique Value" }];
-    expect(indexer.removeDuplicates(array).length).toEqual(results.length);
-    expect(indexer.removeDuplicates(array)).toEqual(results);
+    expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
+    expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
 });

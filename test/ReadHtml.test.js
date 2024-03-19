@@ -1,4 +1,4 @@
-const { Indexer } = require("../src/websiteInd.js");
+const { HtmlReader } = require("../src/HtmlReader");
 
 describe("readHtml() extracts text content of html page", () => {
   jest.mock("fs");
@@ -9,43 +9,41 @@ describe("readHtml() extracts text content of html page", () => {
   const cheerio = require("cheerio");
 
   let file = {};
-  let indexer;
+  let htmlReader;
 
   path.join.mockImplementation((file, subFile) => {
     return `${file}/${subFile}`; // Custom implementation for path.join()
   });
 
-
   beforeEach(() => {
     jest.restoreAllMocks();
 
-    indexer = new Indexer(fs, path, cheerio);
+    htmlReader = new HtmlReader(fs, path, cheerio);
   });
 
   it("returns empty object if file empty", () => {
-    fs.readFileSync.mockReturnValueOnce('')
-    expect(indexer.readHtml("./html", file, 1)).toEqual([]);
+    fs.readFileSync.mockReturnValueOnce("");
+    expect(htmlReader.readHtml("./html", file, 1)).toEqual([]);
   });
 
-  it("returns string returned from cheerio as content in response object", ()=>{
-     fs.readFileSync.mockReturnValueOnce("returned string");
+  it("returns string returned from cheerio as content in response object", () => {
+    fs.readFileSync.mockReturnValueOnce("returned string");
 
-     file = 'fileName.html'
-     expectedResponse = {
-       c: "returned string",
-       e: "body",
-       id: [1, 0],
-       link: file,
-       t: "",
-     };
+    file = "fileName.html";
+    expectedResponse = {
+      c: "returned string",
+      e: "body",
+      id: [1, 0],
+      link: file,
+      p: "projectName",
+      t: "",
+    };
 
-     expect(indexer.readHtml("./html", file, 1)).toEqual([expectedResponse]);
-  })
+    expect(htmlReader.readHtml("projectName", "./html", file, 1)).toEqual([expectedResponse]);
+  });
 
   it("doesn't return content of el if not equal to script", () => {
-
-    fs.readFileSync.mockReturnValueOnce('<script> text </script>');
-
+    fs.readFileSync.mockReturnValueOnce("<script> text </script>");
 
     file = "fileName.html";
     expectedResponse = {
@@ -56,7 +54,6 @@ describe("readHtml() extracts text content of html page", () => {
       t: "",
     };
 
-    expect(indexer.readHtml("./html", file, 1)).toEqual([]);
+    expect(htmlReader.readHtml("./html", file, 1)).toEqual([]);
   });
-
 });

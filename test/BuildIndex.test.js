@@ -1,28 +1,29 @@
-const { Indexer } = require("../src/websiteInd.js");
+const { DataProcessor } = require("../src/DataProcessor");
 
 describe("build Index and adds fields from searchfield", () => {
-let path = require("path");
-let fs = require("fs");
-let lunr = require("lunr");
-let cheerio = require("cheerio");
+  let path = require("path");
+  let fs = require("fs");
+  let lunr = require("lunr");
+  let cheerio = require("cheerio");
+
+  const maxPreviewChars = 1500;
 
 
-const maxPreviewChars = 1500;
-let htmlFolder;
-
-  beforeEach(() => {   
-    indexer = new Indexer(fs, path, cheerio, htmlFolder, maxPreviewChars, lunr);
+  beforeEach(() => {
+    dataProcessor = new DataProcessor(
+      fs,
+      path,
+      lunr,
+      [],
+      maxPreviewChars
+    );
   });
 
   it("correctly asigns fields", () => {
-    
-    indexer.searchFields = ["fakeField", "secondField"];
-    const response = indexer.buildIndex([{}], 'webName');
+    dataProcessor.searchFields = ["fakeField", "secondField"];
+    const response = dataProcessor.buildIndex([{}], "webName");
 
     expect(response.fields[0]).toEqual("f");
     expect(response.fields[1]).toEqual("s");
   });
-
-  
-
 });

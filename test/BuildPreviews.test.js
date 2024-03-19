@@ -1,17 +1,17 @@
 const { Cheerio } = require("cheerio");
-const { Indexer } = require("../src/websiteInd.js");
+const { DataProcessor } = require("../src/DataProcessor");
 
 describe('buildPreviews() out of doc objects', () => {
 
    const fs = require("fs");
    const path = require("path");
 
-   let indexer;
+   let dataProcessor;
 
   beforeEach(() => {
     jest.restoreAllMocks();
 
-    indexer = new Indexer([], fs, path);
+    dataProcessor = new DataProcessor([], fs, path);
   });
 
   it("returns array with doc object as a preview object when one doc", () => {
@@ -22,10 +22,11 @@ describe('buildPreviews() out of doc objects', () => {
         t: "title",
         c: "Element Data",
         e: "element.parent.name",
+        p: "website"
       },
     ];
 
-    expect(indexer.buildPreviews(docs, "website")).toEqual({
+    expect(dataProcessor.buildPreviews(docs, "website")).toEqual({
       "1,0": {
         t: "title",
         c: "Element Data",
@@ -40,7 +41,7 @@ describe('buildPreviews() out of doc objects', () => {
 
     docs = [];
 
-    expect(indexer.buildPreviews(docs, "website")).toEqual({});
+    expect(dataProcessor.buildPreviews(docs, "website")).toEqual({});
 
   });
 
@@ -52,12 +53,13 @@ describe('buildPreviews() out of doc objects', () => {
         t: "title",
         c: "Element Data",
         e: "element.parent.name",
+        p: "website"
       },
     ];
 
-    indexer.maxPreviewChars = 10;
+    dataProcessor.maxPreviewChars = 10;
 
-    expect(indexer.buildPreviews(docs, "website")).toEqual({
+    expect(dataProcessor.buildPreviews(docs, "website")).toEqual({
       "1,0": {
         t: "title",
         c: "Element Da ...",

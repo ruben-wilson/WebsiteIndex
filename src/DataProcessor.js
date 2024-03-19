@@ -1,4 +1,14 @@
 class DataProcessor {
+
+  constructor(fs, path, lunr, searchFields, maxPreviewChars){
+    this.fs = fs;
+    this.path = path;
+    this.lunr = lunr;
+    this.searchFields = searchFields;
+    this.maxPreviewChars = maxPreviewChars;
+    this.error = true;
+  }
+
   buildIndex(docs) {
     const searchFields = this.searchFields;
 
@@ -19,13 +29,13 @@ class DataProcessor {
   }
 
   buildPreviews(docs) {
+    
     let result = {};
     for (const doc of docs) {
       let preview = doc["c"];
       if (preview.length > this.maxPreviewChars) {
         preview = preview.slice(0, this.maxPreviewChars) + " ...";
       }
-
       result[doc["id"]] = {
         t: doc["t"],
         c: preview,
@@ -49,16 +59,19 @@ class DataProcessor {
   }
 
   errorHandler(err) {
+    
     if (err) {
-      this.error = err;
+     return err;
     }
+     return true;
   }
 
-  async writeToFile(content) {
-    const filePath = path.join(this.htmlFolder, "LunrTestOutput.js");
-    await this.fs.writeFile(filePath, content, this.errorHandler);
+  async writeToFile(content, trgPath) {
+    const filePath = this.path.join(trgPath, "LunrTestOutput.js");
+    this.error = await this.fs.writeFile(filePath, content, this.errorHandler);
     return this.error;
   }
+
 }
 
 module.exports = {

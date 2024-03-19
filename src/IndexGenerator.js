@@ -2,27 +2,30 @@ const DataProcessor = require("./DataProcessor");
 const HtmlReader = require("./HtmlReader");
 
 class IndexGenerator {
-  constructor(websiteName, trgPath, htmlReader, dataProcessor) {
-    this.websiteName = websiteName;
-    this.trgPath = trgPath;
+  constructor(htmlReader, dataProcessor) {
     this.htmlReader = htmlReader;
     this.dataProcessor = dataProcessor;
 
     this.htmlFilePaths = [];
-    this.websiteContent = [];
     this.idx;
     this.previews;
   }
 
-  findHtmlFilePaths(trgPath) {
-    return this.htmlReader.findHtml(trgPath);
+  findHtmlFilePaths(trgPath, output) {
+    return this.htmlReader.findHtml(trgPath, output);
   }
 
   htmlFileToTextContent(projectName, projectPath, files, fileId) {
+    const websiteContent = [];
+    // for each file in project
     files.forEach((file, index) => {
-      this.htmlReader.readHtml(projectName, projectPath, file, [fileId, index]);
+      // return an array of objects for each text el
+      const fileHtml = this.htmlReader.readHtml(projectName, projectPath, file, [fileId, index]);
+      websiteContent.push(fileHtml);
     });
-    return this.htmlReader.readHtml(projectPath, relativeFilePath, fileId);
+ 
+    // return an array of objects for all webcontent in a website
+    return websiteContent.flat();
   }
 
   buildIndexes(websiteContent) {
@@ -37,10 +40,11 @@ class IndexGenerator {
   }
 
   saveDocumentObj(docObj, projectPath) {
-    return this.dataProcessor.writeToFile(docObj, projectPath) ? error : false;
+    const error = this.dataProcessor.writeToFile(docObj, projectPath);
+    return !error ? error : true;
   }
 }
 
 module.exports = {
-  SearchIndex,
+  IndexGenerator,
 };

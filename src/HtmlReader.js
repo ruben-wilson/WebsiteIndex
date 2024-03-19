@@ -1,7 +1,10 @@
 class HtmlReader {
-  constructor(fs, path) {
+
+  constructor(fs, path, cheerio, exclude_files) {
     this.fs = fs;
     this.path = path;
+    this.cheerio = cheerio;
+    this.exclude_files = exclude_files; 
   }
 
   isHtml(filename) {
@@ -9,10 +12,10 @@ class HtmlReader {
     return lower.endsWith(".html");
   }
 
-  findHtml(folder) {
+  findHtml(folder, output) {
+    
     if (!this.fs.existsSync(folder)) {
-      console.log("Could not find folder: ", folder);
-      return [];
+      return output.createErrLog(`Could not find folder: + ${folder}`);
     }
 
     let files = this.fs.readdirSync(folder);
@@ -61,7 +64,7 @@ class HtmlReader {
     // traverse through cheerio object to find all text content
     let results = [];
     let i = 0;
-    findTextContent = (element) => {
+    const findTextContent = (element) => {
       if (element.type === "text") {
         if (
           (element.data.trim().length !== 0) &
@@ -92,7 +95,8 @@ class HtmlReader {
 
     results = findTextContent($.root()[0]);
     // remove duplicate els
-    return this.removeDuplicates(results).flat();
+    const cleanResults = this.removeDuplicates(results);
+    return cleanResults;
   }
 }
 

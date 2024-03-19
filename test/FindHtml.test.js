@@ -1,4 +1,4 @@
-const { Indexer } = require("../src/websiteInd.js");
+const { HtmlReader } = require("../src/HtmlReader");
 
 describe("findHtml() finds all file names which end with .html", () => {
   jest.mock("fs");
@@ -6,13 +6,14 @@ describe("findHtml() finds all file names which end with .html", () => {
 
   const fs = require("fs");
   const path = require("path");
+  const cheerio = require("cheerio")
 
-  let indexer;
+  let htmlReader;
 
   beforeEach(() => {
     jest.restoreAllMocks();
 
-    indexer = new Indexer(fs, path);
+    htmlReader = new HtmlReader(fs, path, cheerio, []);
   });
 
   it("Finds file in directory", () => {
@@ -26,7 +27,7 @@ describe("findHtml() finds all file names which end with .html", () => {
     // returns an object with detials about the file/dir object
     fs.lstatSync.mockReturnValue({ isDirectory: () => false });
 
-    expect(indexer.findHtml("./html")).toEqual(["file1.html"]);
+    expect(htmlReader.findHtml("./html")).toEqual(["file1.html"]);
   });
 
   it("Finds files in directory", () => {
@@ -50,7 +51,7 @@ describe("findHtml() finds all file names which end with .html", () => {
     // returns an object with detials about the file/dir object
     fs.lstatSync.mockReturnValue({ isDirectory: () => false });
 
-    expect(indexer.findHtml("./html")).toEqual([
+    expect(htmlReader.findHtml("./html")).toEqual([
       "file1.html",
       "file2.html",
       "file3.html",
@@ -81,7 +82,7 @@ describe("findHtml() finds all file names which end with .html", () => {
 
     path.join.mockReturnValueOnce("subFolder/file1.html");
 
-    response = indexer.findHtml("./html");
+    response = htmlReader.findHtml("./html");
     expect(response).toEqual(["subFolder/file1.html"]);
   });
 
@@ -111,7 +112,7 @@ describe("findHtml() finds all file names which end with .html", () => {
 
     path.join.mockReturnValueOnce("subFolder/file2.html");
 
-    response = indexer.findHtml("./html");
+    response = htmlReader.findHtml("./html");
     expect(response).toEqual(["file.html", "subFolder/file2.html"]);
   });
 });

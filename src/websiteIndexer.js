@@ -1,33 +1,50 @@
 class WebsiteIndexer {
 
-  constructor(IndexGenerator) {
+  constructor(IndexGenerator, output) {
     this.indexGenerator = IndexGenerator;
+    this.output = output;
 
     this.projectData = [];
     this.allProjectsContents = [];
     this.indexes;
   }
 
+  getOutPut(){
+    return this.output;
+  }
+
   findAllFiles(websiteNames, allProjectPaths) {
-    websiteNames.forEach(website, (i) => {
-      this.projectData.append({
-        Name: website,
-        Path: allProjectPaths[i],
-        Files: this.indexGenerator.findHtmlFilePaths(project),
-      });
+    this.output.createLog("Creating Indexes for these Files :");
+
+    websiteNames.forEach((website, i) => {
+     const projectData = {
+       Name: website,
+       Path: allProjectPaths[i],
+       Files: this.indexGenerator.findHtmlFilePaths(allProjectPaths[i], this.output),
+     };
+     if (!projectData.Files)
+        return this.output;
+      this.projectData.push(projectData);
+      this.output.createFindFileLog(projectData.Name, projectData.Files)
     });
+
+
   }
 
   findAllTextContent() {
-    this.projectData.forEach(project, (i) => {
+    const projectData = [];
+
+    this.projectData.forEach((project, i) => {
       const projectHtml = this.indexGenerator.htmlFileToTextContent(
         project.Name,
         project.Path,
         project.Files,
         i
       );
-      this.allProjectsContents.append(projectHtml);
+      projectData.push(projectHtml);
     });
+
+    this.allProjectsContents = projectData.flat();
   }
 
   buildIndexes() {
@@ -41,19 +58,27 @@ class WebsiteIndexer {
       this.indexes.previews
     );
 
+    let err;
     allProjectPaths.forEach( async project => { 
-      await this.indexGenerator.saveDocumentObj(documentObject, project);
+      err = await this.indexGenerator.saveDocumentObj(documentObject, project);
     })
-  
+
+    return err;
   }
 
-  generateIndexes(websiteNames, allProjectPaths) {
+  createAllIndexes(websiteNames, allProjectPaths, outputEl) {
+    
+    this.output.setTrgEl(outputEl);
+    this.output.createLog("Running ...")
     this.findAllFiles(websiteNames, allProjectPaths);
     this.findAllTextContent();
+
     this.buildIndexes();
-    this.saveIndex(allProjectPaths);
+    
+    return this.saveIndex(allProjectPaths);
   }
-  
+
+
 }
 
 module.exports = {
