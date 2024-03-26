@@ -3,6 +3,7 @@
     "cheerio": "^1.0.0-rc.12",
     "fs": "^0.0.1-security",
     "jest": "^29.7.0",
+    "jsdom": "^24.0.0",
     "lunr": "^2.3.9"
   },
   "scripts": {

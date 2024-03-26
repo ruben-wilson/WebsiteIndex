@@ -1,4 +1,4 @@
-const { HtmlReader } = require("../src/HtmlReader");
+const { HtmlReader } = require("../../Indexer/src/HtmlReader");
 
 describe("findHtml() finds all file names which end with .html", () => {
   jest.mock("fs");

@@ -18,7 +18,7 @@ class ClassFactory {
 
 
   createHtmlReader() {
-    const excludedFiles = [];
+    const excludedFiles = ["node_modules"];
     return new HtmlReader(this.fs, this.path, this.cheerio, excludedFiles);
   }
 

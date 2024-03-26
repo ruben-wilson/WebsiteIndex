@@ -54,6 +54,13 @@ class HtmlReader {
     return arr;
   }
 
+  createLink(file, elId){
+    let dataToSend = { trgEl: elId };
+    let linkParams = new URLSearchParams(dataToSend).toString();
+    return `${file}?${linkParams}`;
+
+  }
+
   readHtml(projectName, root, file, fileId) {
     let filename = this.path.join(root, file),
       txt = this.fs.readFileSync(filename).toString(),
@@ -66,6 +73,7 @@ class HtmlReader {
     let i = 0;
     const findTextContent = (element) => {
       if (element.type === "text") {
+
         if (
           (element.data.trim().length !== 0) &
           (element.parent.name !== "script") &
@@ -73,13 +81,15 @@ class HtmlReader {
           (element.parent.name !== "title") &
           (element.parent.name !== "a")
         ) {
+
+          const link = this.createLink(file, element.parent.attribs.id);
           results.push({
             id: [fileId, i],
-            link: file,
+            link: link,
             t: title,
-            c: element.data,
+            c: element.data.trim(),
             e: element.parent.name || "N/A",
-            p: projectName,
+            p: projectName
           });
           i++;
         }

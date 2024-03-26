@@ -1,4 +1,4 @@
-const websiteIndexer = require("./main");
+const websiteIndexer = require("./Indexer/Main");
 
 class outputEl {
   constructor() {
@@ -10,15 +10,18 @@ const output = new outputEl();
 
 async function a(){
  const err = await websiteIndexer.createAllIndexes(
-   ["player", "onbo"],
-   ["./html", "./testHtml"],
+   ["player"],
+   ["./html"],
    output
  );
-
+ 
  console.log(output.innerHtml);
  console.log(err);
-
 }
 
 
-a()
+
+a();
+
+
+

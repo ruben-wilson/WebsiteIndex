@@ -1,4 +1,4 @@
-const { HtmlReader } = require("../src/HtmlReader");
+const { HtmlReader } = require("../../Indexer/src/HtmlReader");
 
 describe("isHtml() decides if file is a .html file returns true or false", () => {
   let htmlReader;

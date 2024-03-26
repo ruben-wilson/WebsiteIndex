@@ -1,4 +1,4 @@
-const { HtmlReader } = require("../src/HtmlReader");
+const { HtmlReader } = require("../../Indexer/src/HtmlReader");
 
 describe("removeDuplicates removes any objects with duplicate content from an array", () => {
   let htmlReader;

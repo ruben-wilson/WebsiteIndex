@@ -1,5 +1,5 @@
 const { Cheerio } = require("cheerio");
-const { DataProcessor } = require("../src/DataProcessor");
+const { DataProcessor } = require("../../Indexer/src/DataProcessor");
 
 describe('buildPreviews() out of doc objects', () => {
 

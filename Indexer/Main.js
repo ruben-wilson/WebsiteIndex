@@ -1,13 +1,13 @@
-let path = require("path");
-let fs = require("fs");
-let lunr = require("lunr");
-let cheerio = require("cheerio");
+const path = require("path");
+const fs = require("fs");
+const lunr = require("lunr");
+const cheerio = require("cheerio");
 
 const { ClassFactory } = require("./src/ClassFactory")
 
 const factory = new ClassFactory(fs, path, cheerio, lunr);
 
-const websiteIndexer = factory.createWebsiteIndexer()
+
 
 // console.log(output);
 

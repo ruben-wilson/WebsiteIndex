@@ -1,4 +1,4 @@
-const { DataProcessor } = require("../src/DataProcessor");
+const { DataProcessor } = require("../../Indexer/src/DataProcessor");
 
 describe("build Index and adds fields from searchfield", () => {
   let path = require("path");

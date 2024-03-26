@@ -1,4 +1,4 @@
-const { HtmlReader } = require("../src/HtmlReader");
+const { HtmlReader } = require("../../Indexer/src/HtmlReader");
 
 describe("readHtml() extracts text content of html page", () => {
   jest.mock("fs");
@@ -39,7 +39,9 @@ describe("readHtml() extracts text content of html page", () => {
       t: "",
     };
 
-    expect(htmlReader.readHtml("projectName", "./html", file, 1)).toEqual([expectedResponse]);
+    expect(htmlReader.readHtml("projectName", "./html", file, 1)).toEqual([
+      expectedResponse,
+    ]);
   });
 
   it("doesn't return content of el if not equal to script", () => {

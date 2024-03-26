@@ -1,5 +1,4 @@
 class WebsiteIndexer {
-
   constructor(IndexGenerator, output) {
     this.indexGenerator = IndexGenerator;
     this.output = output;
@@ -9,7 +8,7 @@ class WebsiteIndexer {
     this.indexes;
   }
 
-  getOutPut(){
+  getOutPut() {
     return this.output;
   }
 
@@ -17,18 +16,18 @@ class WebsiteIndexer {
     this.output.createLog("Creating Indexes for these Files :");
 
     websiteNames.forEach((website, i) => {
-     const projectData = {
-       Name: website,
-       Path: allProjectPaths[i],
-       Files: this.indexGenerator.findHtmlFilePaths(allProjectPaths[i], this.output),
-     };
-     if (!projectData.Files)
-        return this.output;
+      const projectData = {
+        Name: website,
+        Path: allProjectPaths[i],
+        Files: this.indexGenerator.findHtmlFilePaths(
+          allProjectPaths[i],
+          this.output
+        ),
+      };
+      if (!projectData.Files) return this.output;
       this.projectData.push(projectData);
-      this.output.createFindFileLog(projectData.Name, projectData.Files)
+      this.output.createFindFileLog(projectData.Name, projectData.Files);
     });
-
-
   }
 
   findAllTextContent() {
@@ -52,35 +51,31 @@ class WebsiteIndexer {
   }
 
   async saveIndex(allProjectPaths) {
-
     const documentObject = this.indexGenerator.buildDocumentObj(
       this.indexes.idx,
       this.indexes.previews
     );
 
     let err;
-    allProjectPaths.forEach( async project => { 
+    allProjectPaths.forEach(async (project) => {
       err = await this.indexGenerator.saveDocumentObj(documentObject, project);
-    })
+    });
 
     return err;
   }
 
   createAllIndexes(websiteNames, allProjectPaths, outputEl) {
-    
     this.output.setTrgEl(outputEl);
-    this.output.createLog("Running ...")
+    this.output.createLog("Running ...");
     this.findAllFiles(websiteNames, allProjectPaths);
     this.findAllTextContent();
-
     this.buildIndexes();
-    
-    return this.saveIndex(allProjectPaths);
+    this.saveIndex(allProjectPaths);
+    this.output.createSuccessLog(websiteNames);
+    this.output.displayLogs();
   }
-
-
 }
 
 module.exports = {
-  WebsiteIndexer  
-}
+  WebsiteIndexer,
+};
