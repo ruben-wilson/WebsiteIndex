@@ -30,6 +30,7 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
     const array = [{ ...obj }, { ...obj }, { ...obj }, { c: "Unique Value" }];
 
     const results = [{ ...obj }, { c: "Unique Value" }];
+    console.log(htmlReader.removeDuplicates(array));
     expect(htmlReader.removeDuplicates(array).length).toEqual(results.length);
     expect(htmlReader.removeDuplicates(array)).toEqual(results);
   });
@@ -51,7 +52,7 @@ describe("removeDuplicates removes any objects with duplicate content from an ar
       { ...obj2 },
       { c: "Unique Value" },
       { ...obj },
-      { ...obj2 },
+      { ...obj2 }
     ];
 
     const results = [{ ...obj }, { ...obj2 }, { c: "Unique Value" }];

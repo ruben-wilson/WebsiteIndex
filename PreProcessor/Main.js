@@ -1,3 +1,6 @@
-const { run } = require("./src/PreProcessor")
+const { PreProcessor } = require("./src/PreProcessor")
+const cheerio = require("cheerio");
+const path = require("path");
+const fs = require("fs");
 
-run()
+const preProcessor = PreProcessor(cheerio, fs, path, output, [], folderPath)

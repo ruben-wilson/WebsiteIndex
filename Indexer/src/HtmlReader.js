@@ -41,17 +41,17 @@ class HtmlReader {
   }
 
   removeDuplicates(arr) {
-    for (let i = 0; i < arr.length; i++) {
-      let content = arr[i].c;
-
-      for (let j = i + 1; j < arr.length; j++) {
-        if (content == arr[j].c) {
-          arr.splice(j, 1);
-          j -= 1;
-        }
+    let matches = {}
+    let result = []
+    
+    arr.forEach( obj => {
+      matches[obj.c] = matches[obj.c] ? matches[obj.c] + 1 : 1;
+      if (matches[obj.c] == 1){
+         result.push(obj)
       }
-    }
-    return arr;
+    })
+
+    return result;
   }
 
   createLink(file, elId){
