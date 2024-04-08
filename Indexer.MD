@@ -81,3 +81,38 @@ save indexs to each project directory
 
 
 
+  <!-- createResultHtml(wName, title, content, link, elName) {
+        let type;
+        if (elName == "PDF") {
+          type = "PDF";
+        } else if (elName == "VIDEO") {
+          type = "Video";
+        } else {
+          type = "Web";
+        }
+        return `<div class="ms-2 mt-4">
+                        <a href="" class="" target="_blank"><h6 class="link-primary">${wName}</h6></a>
+                        <div class="list-group">
+                          <a href=${link} class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                              <div class="mb-1 fs-6">${title}</div>
+                              <small>${type}</small>
+                            </div>
+                            <small class="mb-1"${content}</small>
+                          </a>
+                        </div>
+                        </div>`;
+    // return `<div class="ms-2 mt-4">
+    //             <a href="" class="" target="_blank">
+    //               <h6 class="link-primary">${wName}</h6>
+    //             </a>
+    //             <div class="list-group">
+    //               <a href=${link} class="list-group-item list-group-item-action list-group-item-light" aria-current="true">
+    //                 <div class="d-flex w-100 justify-content-between">
+    //                   <h6 class="mb-1">${title}</h6>
+    //                 </div>
+    //                 <small class="mb-1">${content}</small>
+    //               </a>
+    //             </div>
+    //           </div>`;
+  } -->

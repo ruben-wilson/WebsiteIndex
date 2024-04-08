@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="81px" height="307px" viewBox="0 0 81 307" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path d="M0 0L80 0L80 302L0 302L0 0Z" id="path_1" />
+    <path d="M0 0L76 0L76 298L0 298L0 0L0 0Z" id="path_2" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+    <clipPath id="mask_2">
+      <use xlink:href="#path_2" />
+    </clipPath>
+  </defs>
+  <g id="beyond-arrow-up" transform="translate(0.5 4.5)">
+    <path d="M0 0L80 0L80 302L0 302L0 0Z" id="Background" fill="none" fill-rule="evenodd" stroke="none" />
+    <g clip-path="url(#mask_1)">
+      <g id="beyond-arrow-up" transform="translate(2 2)">
+        <path d="M0 0L76 0L76 298L0 298L0 0L0 0Z" id="Background" fill="none" fill-rule="evenodd" stroke="none" />
+        <g id="Mask-group">
+          <path d="M0 0L76 0L76 298L0 298L0 0L0 0Z" id="path_1" fill="none" fill-rule="evenodd" stroke="none" />
+          <g clip-path="url(#mask_2)">
+            <g id="Group" transform="translate(38.99996 4)">
+              <path d="M0 0L0 290" id="Line" fill="none" fill-rule="evenodd" stroke="#BBBBBB" stroke-width="1" stroke-linecap="round" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <path d="M14.5 0L29 8.99994L14.5 0L14.4208 0.0491415L0 9L14.5 0Z" transform="translate(27.527786 0.5)" id="Polygon" fill="#D3D3D3" fill-rule="evenodd" stroke="#BBBBBB" stroke-width="1" />
+</svg>
