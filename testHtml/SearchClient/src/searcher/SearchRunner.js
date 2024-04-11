@@ -9,7 +9,8 @@ export default class SearchRunner {
   search(query) {
     const searchResults = this.indexSearch.search(query);
     const filteredResults = this.resultsProcessor.preFilterLunrResults(searchResults);
-    const parsedResults = this.resultsProcessor.parseResponse(filteredResults);
+    const websiteResults = this.resultsProcessor.splitByWebsite(filteredResults)
+    const parsedResults = this.resultsProcessor.parseResponse(websiteResults);
     this.searchClient.updateResults(parsedResults);
   }
 

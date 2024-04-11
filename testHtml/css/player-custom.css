@@ -207,6 +207,7 @@ body[data-layout=boxed] .wrapper {
     display: flex;
     width: 100%;
 }
+
 body[data-layout="boxed"] .menu-wrapper {
 /*-- max-width: 1600px; --*/
     max-width: 1600px;
@@ -734,3 +735,75 @@ header .overlay {
 .target-element { scroll-margin-top: 100px; }
 
 
+/*-- Callout BEGIN --*/
+.bd-callout {
+    --bs-link-color-rgb: var(--bd-callout-link);
+    --bs-code-color: var(--bd-callout-code-color);
+    padding: 1rem 1rem 1rem 1rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    color: var(--bd-callout-color, inherit);
+    background-color: var(--bd-callout-bg, var(--bs-gray-100));
+    border-left: 0.25rem solid var(--bd-callout-border, var(--bs-gray-300))
+}
+
+.bd-callout h4 {
+    margin-bottom: .25rem
+}
+
+.bd-callout>:last-child {
+    margin-bottom: 0
+}
+
+.bd-callout+.bd-callout {
+    margin-top: -.25rem
+}
+
+.bd-callout .highlight {
+    background-color: rgba(0,0,0,0.05)
+}
+
+.bd-callout-info {
+    --bd-callout-color: var(--bs-info-text-emphasis);
+    --bd-callout-bg: var(--bs-info-bg-subtle);
+    --bd-callout-border: var(--bs-info-border-subtle)
+}
+
+.bd-callout-warning {
+    --bd-callout-color: var(--bs-warning-text-emphasis);
+    --bd-callout-bg: var(--bs-warning-bg-subtle);
+    --bd-callout-border: var(--bs-warning-border-subtle)
+}
+
+/*-- list group active color BEGIN --*/
+.list-group {
+    --bs-list-group-active-bg: #0073ff;
+    --bs-list-group-active-border-color: #e2e2e2;
+}
+
+/*-- search bar BEGIN --*/
+       .search{
+       position: relative;
+       }
+
+       .search input{
+        height: 60px;
+        text-indent: 25px;
+        border: 2px solid #d6d4d4;
+       }
+
+       .search input:focus{
+        box-shadow: none;
+        border: 2px solid #0073ff;
+       }
+
+       .search .fa-search{
+        position: absolute;
+        top: 20px;
+        left: 16px;
+       }
+
+     #srchResult:hover {
+        background-color: rgb(0, 168, 255); /* Example: changes background color to yellow */
+        cursor: pointer; /* Changes cursor to a pointer to indicate it's interactive */
+      }
