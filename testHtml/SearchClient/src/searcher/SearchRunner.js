@@ -16,6 +16,7 @@ export default class SearchRunner {
 
   run() {
     this.indexSearch.loadIndex();
+    this.searchClient.setUpSearchModal();
     this.searchClient.connectInput( (e) => this.search(e));
   }
 

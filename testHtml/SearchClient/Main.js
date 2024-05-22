@@ -1,23 +1,22 @@
 import ClassFactory from "./src/ClassFactory.js";
-// import {index, preview} from "../LunrTestOutput.js"
-import { index, preview } from "../../test/mockHtml/LunrTestOutput.js";
+import {index, preview} from "../LunrIndex.js"
+
 
 const classFactory = new ClassFactory(lunr, index, preview);
 
-const resultFinder = classFactory.createResultFinder(document)
+const resultFinder = classFactory.createResultFinder(document);
 
 const searchRunner = classFactory.createSearchRunner(
   document,
   "searchResults",
-  "queryInput"
+  "queryInput", 
+  "search",
+  "buttonClear"
 );
 
 window.onload = () => {
   // finds results from an excuted search
-  resultFinder.run()
-  // executes a user search
+  resultFinder.run();
+  // executes a user's search
   searchRunner.run();
-}
-
-
-
+};

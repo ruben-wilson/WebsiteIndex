@@ -11,29 +11,51 @@ export default class ClassFactory {
     this.previews = previews;
   }
 
-  createResultFinder(document){
+  createResultFinder(document) {
     return new ResultFinder(document);
   }
-
 
   createIndexSearcher() {
     return new IndexSearch(this.lunr, this.index);
   }
 
-  createSearchClient(document, outputEl, inputEl) {
-    return new SearchClient(document, outputEl, inputEl);
+  createSearchClient(
+    document,
+    outputEl,
+    inputEl,
+    searchModalId,
+    queryDeleteBtn
+  ) {
+    return new SearchClient(
+      document,
+      outputEl,
+      inputEl,
+      searchModalId,
+      queryDeleteBtn
+    );
   }
 
   createResultsProcessor() {
     return new ResultsProcessor(this.previews);
   }
 
-  createSearchRunner(document, outputEl, inputEl) {
+  createSearchRunner(
+    document,
+    outputEl,
+    inputEl,
+    searchModalId,
+    queryDeleteBtn
+  ) {
     return new SearchRunner(
       this.createIndexSearcher(),
       this.createResultsProcessor(),
-      this.createSearchClient(document, outputEl, inputEl),
-      
+      this.createSearchClient(
+        document,
+        outputEl,
+        inputEl,
+        searchModalId,
+        queryDeleteBtn
+      )
     );
   }
 }

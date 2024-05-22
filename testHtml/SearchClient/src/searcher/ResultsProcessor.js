@@ -50,13 +50,12 @@ export default class ResultsProcessor {
   }
 
   isEmptyObject(obj) {
-  return Object.keys(obj).length === 0;
- }
-
+    return Object.keys(obj).length === 0;
+  }
 
   parseResponse(websiteResults) {
     let html = [];
-    if (!this.isEmptyObject(websiteResults)){
+    if (!this.isEmptyObject(websiteResults)) {
       Object.keys(websiteResults).forEach((key) => {
         let resultHtml = [];
         websiteResults[key].forEach((result) => {
@@ -75,19 +74,31 @@ export default class ResultsProcessor {
           resultHtml.push(this.createResultHtml(title, preview, link, elName));
         });
 
-        html.push(this.createResultWnameHtml(key, resultHtml.join("")));
+        let id = websiteResults[key][0]["ref"];
+        let link = this.preview[id]["l"];
+
+        html.push(this.createResultWnameHtml(key, link, resultHtml.join("")));
       });
 
       return html.join("");
-    }else{
-
-      return "<p>Your search returned no results.</p>";
+    } else {
+      return this.noResultsHtml();
     }
   }
 
-  createResultWnameHtml(wName, results) {
-    const wLink = this.checkWebsiteLink(wName);
-    console.log(wLink)
+  noResultsHtml() {
+    return `<div class="text-center">
+<p class="fs-4">Your search returned no results</p>
+<ul class="mt-2 gap-1">Try searching for:
+  <li class="list-group-item mt-2"><a href="play-ss-credit-trader-workflow.html" class="link-primary fw-bold">Credit Trader Workflow</a></li>
+  <li class="list-group-item"><a href="play-bs-asset-owner-prepare.html?matchData=4%2C4&elId=191" class="link-primary fw-bold">Asset Owner Prepare for a meeting</a></li>
+  <li class="list-group-item"><a href="play-co-corporate-treasurer-prepare.html?matchData=0%2C8%2C9%2C4&elId=155" class="link-primary fw-bold">Corporate Treasury Question Bank</a></li>
+</ul>
+            </div>`;
+  }
+
+  createResultWnameHtml(wName, link, results) {
+    const wLink = this.checkWebsiteLink(link);
     return `<div class="ms-2 mt-4" >
               <a href=${wLink} class="" target="_blank"><h6 class="link-primary">${wName}</h6></a>
               ${results}
@@ -120,41 +131,14 @@ export default class ResultsProcessor {
     }
   }
 
-  checkWebsiteLink(wName) {
-    switch (wName) {
-      case "Player Portal":
-        return "play-index.html";
-      case "BU ONBO":
-        return "onbo-index.html";
-      case "Bu OnBo":
-        return "onbo-index.html";
-      case "Bu onbo":
-        return "onbo-index.html";
-      case "BU onbo":
-        return "onbo-index.html";
-      case "BU OnBo":
-        return "onbo-index.html";
-      default:
-        return "";
+  checkWebsiteLink(link) {
+    let projectName = link.split("/")[3].toLowerCase();
+    if (projectName.includes("play")) {
+      return "../../fskghtml/playhtml/play-index.html";
+    } else if (projectName.includes("onbo")) {
+      return "../../fskghtml/onbohtml/onbo-index.html";
     }
   }
-
-  // createResultHtml(wName, title, content, link, elName) {
-  //   const type = this.checkResultType(elName);
-  //   const wLink = this.checkWebsiteLink(wName);
-  //   return `<div class="ms-2 mt-4" >
-  //             <a href=${wLink} class="" target="_blank"><h6 class="link-primary">${wName}</h6></a>
-  //             <div class="list-group">
-  //               <a id="srchResult" href=${link} class="list-group-item list-group-item-action">
-  //                 <div class="d-flex w-100 justify-content-between" >
-  //                   <div class="mb-1 fs-6">${title}</div>
-  //                   <small>${type}</small>
-  //                 </div>
-  //                 <small class="mb-1">${content}</small>
-  //               </a>
-  //             </div>
-  //           </div>`;
-  // }
 
   highLightPreviewText(indexPreview, matchData) {
     const markS = "<mark>";

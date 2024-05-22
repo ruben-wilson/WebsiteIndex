@@ -39,73 +39,67 @@ export default class SearchResultFinder {
 
     return indexPreview;
   }
-   isElementVisible(elem) {
-    return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
-  }
 
-   tryClickButtons(elementId) {
-      const targetElement = document.getElementById(elementId);
-      if (this.isElementVisible(targetElement)) {
-          console.log("Target element is already visible.");
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          return;
-      }
+  makeElementVisible(trgEl) {
+    let srchedEls = {};
+    const printChildEls = (el) => {
+  
+      let href = el.getAttribute("href")
+      if (this.isHidden(trgEl) && (href == null | href == "" ) && el.type == "button") {
+        
+        el.click();
+      }else if (href != null &&this.isHidden(trgEl)){
+        // href.split("")[0] == "#" && href.split("").length > 1;
+        if ( href.split("").length > 1 && href.split("")[0] == "#") {
+          console.log("CLICKED:  " + el.id);
+          el.click();
+        }
+      };
 
-      const buttons = document.querySelectorAll('button, a[role="button"]');
-      let found = false;
+      srchedEls[el.id] =
+        srchedEls[el.id] == undefined ? 1 : srchedEls[el.id] + 1;
 
-      buttons.forEach(button => {
-          if (!found) {
-              button.click();
-              // Check after a delay if the target is visible
-              setTimeout(() => {
-                  if (this.isElementVisible(targetElement)) {
-                      console.log("Target element made visible after clicking:", button);
-                      targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      found = true;
-                  }
-              }, 100); // Adjust this delay based on expected response time
+      if (el.children) {
+        Array.from(el.children).forEach((child) => {
+          if (srchedEls[child.id] == undefined) {
+            printChildEls(child);
           }
-      });
-
-      if (!found) {
-          console.log("Could not find a button that reveals the target element.");
-      }
-  }
-
-  printElementsAndParents(elementId) {
-    // Select the target element by its ID
-    let element = document.getElementById(elementId);
-
-    // Iterate up the DOM tree and print elements
-    while (element) {
-        console.log("Current Element: ", element.tagName, element.id ? `(ID: ${element.id})` : "");
-
-        // Print all child elements of the current element
-        console.log("Child Elements:");
-        Array.from(element.children).forEach(child => {
-            console.log(` - ${child.tagName}`, child.id ? `(ID: ${child.id})` : "");
         });
+        return el;
+      }
+    };
 
-        // Move up to the parent element
+    let element = trgEl;
+    while (this.isHidden(trgEl) && element) {
+      element = printChildEls(element);
+      console.log(srchedEls);
+      if (srchedEls[element.parentElement] == undefined) {
         element = element.parentElement;
+      } else {
+        element = element.parentElement.parentElement;
+      }
     }
+    this.scrollToEl();
   }
 
-
+  isHidden(el) {
+    return el.offsetParent === null;
+  }
 
   run() {
     const params = new URLSearchParams(window.location.search);
-    const matchData = params.get("matchData"); 
-    const elId = params.get("elId"); 
+    const matchData = params.get("matchData");
+    const elId = params.get("elId");
     if (elId) {
       this.trgEl = this.document.getElementById(elId);
-      console.log(this.trgEl)
-      this.scrollToEl();
-
-      // this.tryClickButtons(elId);
+      if(this.isHidden(this.trgEl)){
+        this.makeElementVisible(this.trgEl);
+      }else{
+        this.scrollToEl();
+      }
 
       this.highLightPageContent(elId, matchData);
     }
   }
 }
+
