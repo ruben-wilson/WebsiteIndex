@@ -60,12 +60,15 @@ export default class ResultsProcessor {
         let resultHtml = [];
         websiteResults[key].forEach((result) => {
           const matchData = this.extractMatchPositions(
-            result.matchData.metadata
+            result.matchData.metadata, 't'
           );
 
           let id = result["ref"],
             item = this.preview[id],
-            title = item["t"],
+            title = this.highLightPreviewText(
+              item["t"],
+              this.extractMatchPositions(result.matchData.metadata, 'c')
+            ),
             wName = item["w"],
             elName = item["n"],
             preview = this.highLightPreviewText(item["c"], matchData),
@@ -119,24 +122,33 @@ export default class ResultsProcessor {
   }
 
   checkResultType(type) {
-    switch (type) {
-      case "PDF":
-        return "Pdf";
-      case "VIDEO":
-        return "Video";
-      case "Web":
-        return "Web";
-      default:
-        return "Web";
-    }
+    const resultTypes = {
+      PDF: "PDF",
+      Pdf: 'PDF',
+      pdf: 'PDF',
+      VIDEO: 'Video',
+      Video: 'Video',
+      WEB: 'Web',
+      Web: 'Web'
+    } 
+
+    return resultTypes[type] || "Web"
   }
 
   checkWebsiteLink(link) {
-    let projectName = link.split("/")[3].toLowerCase();
-    if (projectName.includes("play")) {
-      return "../../fskghtml/playhtml/play-index.html";
-    } else if (projectName.includes("onbo")) {
-      return "../../fskghtml/onbohtml/onbo-index.html";
+    let projectName = link.split("/")[3] !== undefined  ?  link.split("/")[3].toLowerCase()  : link;
+    
+    const websitePaths = {
+      play: "../../fskghtml/playhtml/play-index.html",
+      onbo: "../../fskghtml/onbohtml/onbo-index.html",
+      eom: "../../fskghtml/eomhtml/index.html",
+      maps: "../../fskghtml/mapshtml/maps-index.html"
+    };
+
+    for(const website in websitePaths){
+      if(projectName.includes(website)){
+        return websitePaths[website]
+      }
     }
   }
 
@@ -160,11 +172,13 @@ export default class ResultsProcessor {
     return indexPreview;
   }
 
-  extractMatchPositions(lunrResultObj) {
+  
+
+  extractMatchPositions(lunrResultObj, fieldToIgnore) {
     let arrays = [];
     const exploreObject = (obj) => {
       for (let key in obj) {
-        if (key != "t") {
+        if (key != fieldToIgnore) {
           if (Array.isArray(obj[key])) {
             arrays.push(obj[key]);
           } else if (typeof obj[key] === "object" && obj[key] !== null) {
@@ -180,4 +194,5 @@ export default class ResultsProcessor {
       .sort((a, b) => a[0] - b[0])
       .flat();
   }
+
 }

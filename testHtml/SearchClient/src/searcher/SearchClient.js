@@ -25,6 +25,7 @@ export default class SearchClient {
 
   clearInput(){
     this.inputEl.value = '';
+     this.inputEl.focus();
   }
 
   focusInput(){
