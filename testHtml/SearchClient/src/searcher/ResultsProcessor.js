@@ -1,4 +1,4 @@
-// TODO Split Results by website name
+
 
 export default class ResultsProcessor {
   constructor(preview) {
@@ -6,13 +6,18 @@ export default class ResultsProcessor {
   }
 
   preFilterLunrResults(results) {
+    let parsedArray = []
+    results.forEach( result => {
+     parsedArray.push(this.preview[result["ref"]])
+    })
+
     let maxScore = [];
     let minScore = [];
     results.forEach((result) => {
       if (result.score > 5) {
         maxScore.push(result);
       }
-      if (result.score > 1.5) {
+      if (result.score > 0.4) {
         minScore.push(result);
       }
     });
@@ -26,7 +31,32 @@ export default class ResultsProcessor {
     }
   }
 
+ linkToWebsiteName(link){
+  let trg = link.split("/").findIndex((folder) => folder === "fskghtml");
+  return link.split("/")[trg + 1];
+ }
+
+  orderByCurrentWebsite(websiteResults){
+    const currentUrl = window.location.href;
+    
+    let trg = currentUrl.split("/").findIndex((folder) => folder === "fskghtml");
+    const currentWebsite = currentUrl.split("/")[trg + 1];
+
+    let order;
+    for(let key in websiteResults){
+      console.log(this.preview[websiteResults[key][0]['ref']]['l'])  
+      
+      if(this.linkToWebsiteName(this.preview[websiteResults[key][0]["ref"]]["l"]) == currentWebsite){
+        
+        return order = {
+          [key] : null
+        }
+      }
+    }
+  }
+
   splitByWebsite(preFilteredResults) {
+    
     let websiteResults = {};
     preFilteredResults.forEach((result) => {
       let preview = this.preview[result["ref"]];
@@ -37,8 +67,8 @@ export default class ResultsProcessor {
         websiteResults[preview["w"]].push(result);
       }
     });
-
-    return websiteResults;
+    const correctOrder = this.orderByCurrentWebsite(websiteResults);
+    return correctOrder !== undefined ? Object.assign(correctOrder, websiteResults) : websiteResults
   }
 
   createLink(matchData, item) {

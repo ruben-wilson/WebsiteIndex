@@ -12,13 +12,13 @@ export default class IndexSearch{
     this.idx = this.lunr.Index.load(this.index);
   }
 
-  fuzzySearchFilter(term){
-    return term.split("").length > 2 ? term + "~1" : term;
+  fuzzySearchFilter(query){
+    return query.split("").length > 3 ? query + "~1" : query;
   }
 
-  search(term){
-    const query = this.fuzzySearchFilter(term);
-    return this.idx.search(query);
+  search(query){
+    const srchQuery = this.fuzzySearchFilter(query);
+    return this.idx.search(srchQuery);
   }
   
 }

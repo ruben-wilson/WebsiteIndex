@@ -9,15 +9,15 @@ export default class SearchRunner {
   search(query) {
     const searchResults = this.indexSearch.search(query);
     const filteredResults = this.resultsProcessor.preFilterLunrResults(searchResults);
-    const websiteResults = this.resultsProcessor.splitByWebsite(filteredResults)
+    const websiteResults = this.resultsProcessor.splitByWebsite(filteredResults);
     const parsedResults = this.resultsProcessor.parseResponse(websiteResults);
+    this.searchClient.setUpSearchModal(query);
     this.searchClient.updateResults(parsedResults);
   }
 
   run() {
     this.indexSearch.loadIndex();
-    this.searchClient.setUpSearchModal();
-    this.searchClient.connectInput( (e) => this.search(e));
+    this.searchClient.connectInput( (e) => this.search(e.trim()));
   }
 
 }

@@ -9,19 +9,48 @@ export default class SearchResultFinder {
     this.trgEl.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  highLightPageContent(elId, matchData) {
+  isFlexElement(element) {
+    const style = window.getComputedStyle(element);
+    return style.display === "flex" || style.display === "inline-flex";
+  }
+
+  highLightPageContent(matchData) {
     matchData = matchData.split(",").map((e) => parseInt(e));
+
+    let isFlex = this.isFlexElement(this.trgEl);
+
     const highlightedText = this.highLightPreviewText(
       this.trgEl.innerText,
-      matchData
+      matchData,
+      isFlex
     );
 
     this.trgEl.innerHTML = highlightedText;
   }
 
-  highLightPreviewText(indexPreview, matchData) {
-    const markS = "<mark>";
-    const markE = "</mark>";
+  getFontSize(element) {
+    const style = window.getComputedStyle(element);
+    return style.fontSize;
+  }
+
+
+  createMarks(isFlex) {
+    if (isFlex) {
+      const markSize = parseInt(this.getFontSize(this.trgEl)) + 14
+      const markS =  `<mark style="max-height: ${markSize}px;">`
+      const markE = `</mark>`;
+      return{ markS: markS, markE: markE, sizeOfMark: 39 }
+    }else{
+
+    return { markS: "<mark>", markE: "</mark>", sizeOfMark: 13};
+  }
+  }
+
+  highLightPreviewText(indexPreview, matchData, isFlex) {
+
+    let { markS: markS, markE: markE, sizeOfMark: sizeOfMark} = this.createMarks(isFlex);
+  
+
     let resize = 0;
     const length = matchData.length;
     for (let i = 0; i < length; i += 2) {
@@ -34,7 +63,7 @@ export default class SearchResultFinder {
         markE +
         indexPreview.slice(endPos);
 
-      resize += 13;
+      resize += sizeOfMark;
     }
 
     return indexPreview;
@@ -43,18 +72,19 @@ export default class SearchResultFinder {
   makeElementVisible(trgEl) {
     let srchedEls = {};
     const printChildEls = (el) => {
-  
-      let href = el.getAttribute("href")
-      if (this.isHidden(trgEl) && (href == null | href == "" ) && el.type == "button") {
-        
+      let href = el.getAttribute("href");
+      if (
+        this.isHidden(trgEl) &&
+        (href == null) | (href == "") &&
+        el.type == "button"
+      ) {
         el.click();
-      }else if (href != null &&this.isHidden(trgEl)){
-        // href.split("")[0] == "#" && href.split("").length > 1;
-        if ( href.split("").length > 1 && href.split("")[0] == "#") {
+      } else if (href != null && this.isHidden(trgEl)) {
+        if (href.split("").length > 1 && href.split("")[0] == "#") {
           console.log("CLICKED:  " + el.id);
           el.click();
         }
-      };
+      }
 
       srchedEls[el.id] =
         srchedEls[el.id] == undefined ? 1 : srchedEls[el.id] + 1;
@@ -79,7 +109,6 @@ export default class SearchResultFinder {
         element = element.parentElement.parentElement;
       }
     }
-    this.scrollToEl();
   }
 
   isHidden(el) {
@@ -92,13 +121,12 @@ export default class SearchResultFinder {
     const elId = params.get("elId");
     if (elId) {
       this.trgEl = this.document.getElementById(elId);
-      if(this.isHidden(this.trgEl)){
+      if (this.isHidden(this.trgEl)) {
         this.makeElementVisible(this.trgEl);
-      }else{
-        this.scrollToEl();
       }
 
-      this.highLightPageContent(elId, matchData);
+      this.scrollToEl();
+      this.highLightPageContent(matchData);
     }
   }
 }

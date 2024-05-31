@@ -1,6 +1,5 @@
 import ClassFactory from "./src/ClassFactory.js";
-import {index, preview} from "../LunrIndex.js"
-
+import { index, preview } from "../playhtml/LunrIndex.js";
 
 const classFactory = new ClassFactory(lunr, index, preview);
 

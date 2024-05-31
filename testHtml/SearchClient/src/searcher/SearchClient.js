@@ -16,28 +16,39 @@ export default class SearchClient {
   connectInput(callback) {
     this.searchFunc = callback;
     this.inputEl.addEventListener("input", (e) => this.runSearch(e));
+    this.searchModal.addEventListener("shown.bs.modal", this.focusInput);
   }
 
-  setUpSearchModal(){
-    this.searchModal.addEventListener('shown.bs.modal', this.focusInput)
-    this.queryDeleteBtn.addEventListener('click', this.clearInput)
+  setUpSearchModal(query){
+    if (query.length > 0){
+      this.queryDeleteBtn.classList.remove('hidden')
+      this.queryDeleteBtn.addEventListener('click', this.clearInput)
+
+    }else{
+      this.queryDeleteBtn.classList.add("hidden");
+    }
   }
 
   clearInput(){
     this.inputEl.value = '';
-     this.inputEl.focus();
+    this.clearResults();
+    this.inputEl.focus();
   }
 
   focusInput(){
     this.inputEl.focus()
   }
 
+  clearResults(){
+   this.outputEl.innerHTML = "";
+  }
+
   runSearch(event) {
     const query = event.target.value;
-    if (query.trim() != "" && query != null) {
+    if (query != null) {
       this.searchFunc(query)
     }else{
-      this.outputEl.innerHTML = "";
+      this.clearResults()
     }
   }
 
