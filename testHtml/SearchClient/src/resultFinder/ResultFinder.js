@@ -119,12 +119,14 @@ export default class SearchResultFinder {
     const params = new URLSearchParams(window.location.search);
     const matchData = params.get("matchData");
     const elId = params.get("elId");
-    if (elId) {
+    console.log(elId)
+    console.log(typeof(elId));
+    console.log( elId ? true : false )
+    if (elId && elId != 'customObj') {
       this.trgEl = this.document.getElementById(elId);
       if (this.isHidden(this.trgEl)) {
         this.makeElementVisible(this.trgEl);
       }
-
       this.scrollToEl();
       this.highLightPageContent(matchData);
     }
